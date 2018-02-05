@@ -1,0 +1,35 @@
+.tooltip {
+	position: relative;
+	padding-left: 20px;
+	font-size: 20px;
+	color: rgba(0, 0, 0, 0.38);
+	&:hover {
+		.tooltip-content {
+			visibility: visible;
+			transform: scale(1);
+		}
+	}
+}
+
+.tooltip-content {
+	visibility: hidden;
+	transform: scale(0);
+	transform-origin: right bottom;
+	transition: all 0.5s;
+	position: absolute;
+	bottom: 0;
+	right: 100%;
+	width: 280px;
+	color: #fff;
+	font-size: 11px;
+	background: rgba(97,97,97,.9);
+	border-radius: 2px;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+@media screen and (max-width: 600px) {
+	.tooltip-content {
+		width: 200px;
+	}
+}

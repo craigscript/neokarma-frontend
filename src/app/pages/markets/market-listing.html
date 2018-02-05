@@ -1,0 +1,102 @@
+<div fxLayout="column">
+	<div fxFlex>
+		<md-card class="market-card">
+			<ng-template tdLoading [tdLoadingUntil]="!loadingMarket" tdLoadingStrategy="overlay" tdLoadingType="linear">
+				<md-card-content  *ngIf="market!=null">
+					<!-- Market Icon & Title -->
+					<div class="market-card-header" fxLayout="row wrap" fxLayoutAlign="center start">
+						<div class="market-icon" fxFlex="50px">
+							<i class="cc {{market.icon}}"></i>
+						</div>
+						<div class="market-title list-view text-light-small" fxFlex>
+							<a class="market-name">{{market.name}}</a> [{{market.currency.quote}}]
+						</div>
+					</div>
+					
+					<!-- Tools -->
+					
+					<div class="market-card-content">
+
+						<!-- Price Info -->
+						<div class="market-price" ngClass.gt-sm="font-scaled">
+							<div class="text-light">
+								<md-counter speed="2" [target]="market.ticker.Price" [decimals]="market.currency.decimals"></md-counter>
+								<span class="market-currency">{{market.currency.base}}</span>
+							</div>	
+							<div class="changes">
+								<p><span class="change-plus">23%</span> / 24h</p>
+								<p><span class="change-minus">12%</span> / 7d</p>
+							</div>
+						</div>
+						
+						<!-- Chart -->
+						<div>
+							<div class="chart extended-view">
+								<superchart-market [data]="chartData"></superchart-market>
+							</div>
+						</div>
+					</div>
+
+					
+				</md-card-content>
+
+				<md-card-actions *ngIf="market!=null">
+					<div class="market-tools" fxLayout="row wrap" fxFlex>
+						<div class="market-action" fxFlex>
+							<button md-button (click)="setHoldings(market)" *ngIf="!market.holdings">
+								<i class="fa fa-fw fa-money"></i>
+								Enter the {{market.currency.quote}} you're holding.
+							</button>
+							<button md-button (click)="setHoldings(market)" *ngIf="market.holdings">
+								<i class="fa fa-fw fa-money"></i>
+								<b>{{market.holdings}} {{market.currency.quote}}</b> / <b>{{(market.holdings * market.ticker.Price) | number: '1.2-2'}} {{market.currency.base}}</b>
+							</button>
+						</div>
+						<button md-button [mdMenuTriggerFor]="alertMenu" fxFlex>
+							<i class="fa fa-fw fa-bell red"></i>
+							Set Alert
+						</button>
+						<md-menu #alertMenu="mdMenu" class="color-icons">
+							<button md-menu-item (click)="createAlert('pricepoint', market)">
+								<md-icon fontIcon="fa-line-chart"></md-icon>
+								Price Point
+							</button>
+							<button md-menu-item (click)="createAlert('percentchange', market)">
+								<md-icon fontIcon="fa-percent"></md-icon>
+								Percentage change
+							</button>
+						</md-menu>
+						<button md-button [mdMenuTriggerFor]="optionsMenu" fxFlex>
+							<i class="fa fa-fw fa-cog"></i>
+							Options
+						</button>
+						<md-menu #optionsMenu="mdMenu" class="color-icons">
+							<button md-menu-item (click)="updateChart(market, 'Volume')">
+								<md-icon fontIcon="fa-area-chart"></md-icon>
+								Volume
+							</button>
+							<button md-menu-item (click)="updateChart(market, 'Price')">
+								<md-icon fontIcon="fa-dollar"></md-icon>
+								Price USD
+							</button>
+							<button md-menu-item (click)="updateChart(market, 'Price')">
+								<md-icon fontIcon="fa-btc"></md-icon>
+								Price BTC
+							</button>
+						</md-menu>
+					</div>
+				</md-card-actions>
+			</ng-template>
+		</md-card>
+	</div>
+	<div fxFlex>
+		<md-card class="market-card">
+			<md-card-title>
+				<i class="fa fa-bell accent mr-10"></i> My Alerts
+			</md-card-title>
+			<md-card-content>
+			<market-alert-listing *ngIf="market!=null" #alertsListing [marketName]="market.market"></market-alert-listing>
+			</md-card-content>
+		</md-card>
+	</div>
+</div>

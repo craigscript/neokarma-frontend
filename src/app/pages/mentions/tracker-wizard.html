@@ -1,0 +1,102 @@
+<md-card>
+	<md-card-title><i class="fa fa-database accent mr-10"></i>Mention Sources</md-card-title>
+	<md-card-subtitle>Add / Remove sources for your mention</md-card-subtitle>
+	<md-divider></md-divider>
+
+	<ng-template tdLoading [tdLoadingUntil]="!loadingTracker" tdLoadingStrategy="overlay">
+
+		<md-card-content>
+			<td-steps [mode]="(media.query('gt-sm')? 'horizontal' : 'vertical')">
+				<td-step #trackingStep [active]="this.trackingStepActive" label="Trackings & Keywords" sublabel="Select keywords you wish to track">
+					<h2>Create Mention Tracker</h2>
+					<form #mentionTrackerForm="ngForm" [hidden]="loadingTracker">
+						<div class="form-elements">
+							<label>Name:</label>
+							<input type="text" placeholder="Name of your source" [(ngModel)]="Tracker.name" name="name" required>
+						</div>
+
+						<label>Required Keywords:</label>
+						<input #requiredKeywords type="text" class="js-choices" [value]="keywords.required" name="requiredKeywords">
+						<div class="input-description">List of keywords that must exist in the search</div>
+
+						<label>Optional Keywords:</label>
+						<input #optionalKeywords type="text" class="js-choices optional-keywords" [value]="keywords.optional" name="optionalKeywords">
+						<div class="input-description">List of keywords where at least one must exist in the tracking results</div>
+
+						<label>Ignored Keywords:</label>
+						<input #ignoredKeywords type="text" class="js-choices ignored-keywords" [value]="keywords.ignored" name="ignoredKeywords">
+						<div class="input-description">If any of these words or keywords are present in the search results they will be ignored.</div>
+
+						<div class="mt-20" layout="row" layout-align="space-around">
+							<button md-raised-button color="primary" [disabled]="!mentionTrackerForm.form.valid"
+								(click)="saveKeywords(requiredKeywords.value, optionalKeywords.value, ignoredKeywords.value);">
+								Save Tracker
+							</button>
+						</div>
+					</form>
+
+				</td-step>
+				<td-step #sourceStep [active]="!this.trackingStepActive" [disabled]="!TrackerId" label="Sources" sublabel="Add your input sources here">
+
+					<div flex>
+						<div class="text-center">
+							<md-card-subtitle class="no-padding">Number of Sources</md-card-subtitle>
+							<p class="text-light-small">{{Sources.length}}/{{user.getMaxQuota('mentions.sources')}}</p>
+							<md-progress-bar [value]="(Sources.length / user.getMaxQuota('mentions.sources')) * 100"></md-progress-bar>
+						</div>
+					</div>
+					<md-nav-list>
+						<h3 md-subheader>Sources</h3>
+
+						<md-list-item *ngIf="Sources.length == 0">
+							<h3 md-line>No sources here.</h3>
+						</md-list-item>
+
+						<div layout="row" layout-align="space-between center" *ngFor="let source of Sources">
+
+							<md-list-item class="flex-grow" (click)="editSource(source)">
+								<md-icon md-list-avatar class="md-big-avatar" fontIcon="fa-{{source.type}}"></md-icon>
+								<h3 md-line>{{source.type}}</h3>
+								<p md-line *ngIf="source.type=='reddit'">/r/{{source.target}}</p>
+								<p md-line *ngIf="source.type=='twitter'">Topic: {{source.target}}</p>
+							</md-list-item>
+
+							<div class="no-shrink">
+								<md-icon class="vertical-menu ml-10" [mdMenuTriggerFor]="menu" fontIcon="fa-ellipsis-v"></md-icon>
+								<md-menu #menu="mdMenu" class="color-icons">
+									<button md-menu-item (click)="editSource(source)">
+										<md-icon fontIcon="fa-pencil-square-o"></md-icon>
+										Edit Source
+									</button>
+									<button md-menu-item (click)="deleteSource(source)">
+										<md-icon class="tc-red-400" fontIcon="fa-trash"></md-icon>
+										Delete
+									</button>
+								</md-menu>
+							</div>
+
+						</div>
+
+					</md-nav-list>
+
+					<button md-raised-button color="primary" class="text-upper mt-20" [mdMenuTriggerFor]="createMenu">Add Source</button>
+					<md-menu #createMenu="mdMenu" class="color-icons">
+						<button color="primary" md-menu-item (click)="addSource('reddit')">
+							<md-icon fontIcon="fa-reddit"></md-icon>
+							Reddit Source
+						</button>
+						<button color="warn" md-menu-item (click)="addSource('twitter')">
+							<md-icon fontIcon="fa-twitter"></md-icon>
+							Twitter Source
+						</button>
+					</md-menu>
+					<button md-raised-button color="primary" [disabled]="!mentionTrackerForm.form.valid" (click)="finishSetup()">Finish Setup</button>
+
+				</td-step>
+
+			</td-steps>
+		</md-card-content>
+
+	</ng-template>
+
+</md-card>

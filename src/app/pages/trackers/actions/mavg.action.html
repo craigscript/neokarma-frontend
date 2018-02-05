@@ -1,0 +1,12 @@
+<h2 md-dialog-title>Moving Average</h2>
+<md-dialog-content class="pt-20" [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+	<form standalone>
+		<span class="md-padding">Window</span>
+		<md-slider min="1" max="24" step="1" [(ngModel)]="window" [value]="window" thumb-label="true" name="window"></md-slider>
+	</form>
+</md-dialog-content>
+
+<md-dialog-actions layout="row" layout-align="space-around" class="mt-20">
+	<button md-raised-button color="primary" (click)="saveAction()">Save</button>
+	<button md-raised-button md-dialog-close>Cancel</button>
+</md-dialog-actions>

@@ -1,0 +1,54 @@
+:host /deep/ {
+	.tick text {
+		font-size: 24px;
+	}
+}
+
+.chart-height {
+	margin: 15px;
+	height: 500px;
+}
+
+.market-checkbox {
+	padding: 0;
+	padding-right: 15px;
+	order: -1;
+}
+
+.market-icon {
+	order: -1;
+	flex-shrink: 0;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	margin-right: 10px;
+	font-size: 20px;
+	line-height: 25px;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.04);
+}
+
+@media screen and (min-width: 600px) {
+	.monitor-row {
+		.card-col {
+			width: 50%;
+		}
+	}
+}
+
+@media screen and (min-width: 1260px) {
+	.monitor-row {
+		.card-col {
+			width: 25%;
+		}
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.market-icon {
+		width: 20px;
+		height: 20px;
+		font-size: 18px;
+		line-height: 20px;
+	}
+}

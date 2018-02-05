@@ -1,0 +1,119 @@
+.mat-card {
+	color: $text-color;
+}
+
+.md-center {
+	text-align: center;
+}
+
+body .mat-dialog-content {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+md-chip {
+	font-size: 12px;
+}
+
+md-nav-list .mat-list-text {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+md-checkbox {
+	padding:20px;
+}
+
+.date-picker {
+	width: 150px;
+
+	.mat-form-field-wrapper {
+		padding-bottom: 20px;
+	}
+}
+
+.mat-nav-list .mat-list-item .mat-list-avatar.md-big-avatar {
+	width: 50px;
+	height: 50px;
+	font-size: 30px;
+	color: $accent;
+}
+
+.app-content md-card {
+	margin: 20px;
+}
+
+.black-list-items {
+	p:first-child {
+		color: $text-color;
+	}
+}
+
+.mat-list .mat-list-item,
+.mat-nav-list .mat-list-item,
+.mat-selection-list .mat-list-item {
+	max-width: 100%;
+}
+
+.mat-form-field-wrapper {
+	padding-bottom: 1.79em;
+}
+
+// Material list icon
+.mat-list .mat-list-item .mat-list-avatar.fa,
+.mat-nav-list .mat-list-item .mat-list-avatar.fa,
+.mat-selection-list .mat-list-item .mat-list-avatar.fa {
+	background-color: rgba(0, 0, 0, 0.05);
+	line-height: 40px;
+	text-align: center;
+}
+
+.mat-nav-list .mat-list-item .mat-list-avatar.md-big-avatar {
+	line-height: 50px;
+}
+
+@media screen and (max-width: 600px) {
+	.mat-card-content,
+	.td-step-body {
+		.mat-nav-list .mat-subheader,
+		.mat-list .mat-subheader,
+		.mat-list .mat-list-item .mat-list-item-content,
+		.mat-nav-list .mat-list-item .mat-list-item-content {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+
+	.date-picker {
+		width: 100%;
+	}
+
+	.mat-datepicker-content-touch .mat-calendar {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.cdk-overlay-pane {
+
+		.mat-dialog-content {
+			max-width: 100%;
+			margin: 0;
+			padding-right: 0;
+			padding-left: 0;
+		}
+		.mat-dialog-container {
+			max-width: 90vw;
+			width: 90vw;
+		}
+	}
+
+	td-steps .td-step-content,
+	td-steps .td-step-summary,
+	td-steps .td-step-actions {
+		margin: 8px;
+	}
+
+	.mat-nav-list .mat-list-item .mat-line {
+		white-space: normal;
+	}
+}

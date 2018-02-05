@@ -1,0 +1,15 @@
+<h2 md-dialog-title>Add Condition</h2>
+<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+	<md-nav-list class="color-icons">
+		<md-list-item *ngFor="let condition of conditions" (click)="createCondition(condition)">
+			<md-icon color="primary" md-list-avatar [fontIcon]="getCondition(condition).icon"></md-icon>
+			<h3 md-line>{{getCondition(condition).title}}</h3>
+			<p md-line>{{getCondition(condition).description}}</p>
+		</md-list-item>
+	</md-nav-list>
+
+</md-dialog-content>
+
+<md-dialog-actions fxLayoutAlign="end">
+	<button md-raised-button [md-dialog-close]="false">Cancel</button>
+</md-dialog-actions>

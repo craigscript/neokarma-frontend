@@ -1,0 +1,21 @@
+.sortable-item-dragged
+{
+	transition:none;
+
+}
+
+.sortable-item {
+
+}
+
+// Fake on mobile
+.sortable-item-clone
+{
+	opacity: 0.8;
+	position: fixed;
+	overflow: hidden;
+	transition: none;
+	touch-action: none;
+	pointer-events: none;
+}
+

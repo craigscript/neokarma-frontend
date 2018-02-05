@@ -1,0 +1,17 @@
+<h2 md-dialog-title>Calculate value of holdings</h2>
+<form #dialogForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+		<span> We automatically calculate how much your holdings are worth. </span><br />
+		{{Market.name}}<br />
+		<br />
+		<md-input-container class="full-width">
+			<input type="number" mdInput="number" placeholder="How much {{Market.currency.quote}} do you have?" [(ngModel)]="Amount" name="Amount">
+		</md-input-container>
+
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around" class="mt-20">
+		<button md-raised-button color="primary" [disabled]="!dialogForm.form.valid" (click)="Save()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

@@ -1,0 +1,146 @@
+<div class="content md-content" layout="column" layout-fill>
+	<div flex layout="column" class="content md-content">
+		<md-sidenav-container fullscreen class="td-layout-nav-list" layout="row" flex>
+			<md-sidenav #sidenav layout="column" layout-fill class="md-whiteframe-z1"
+			[mode]="((media.registerQuery('gt-sm') | async )?'side':'over')"
+			[opened]="media.registerQuery('gt-sm') | async"
+			[style.max-width]="((media.registerQuery('gt-xs') | async )? '230px' : '80%')">
+
+				<md-toolbar color="primary" class="md-whiteframe-z1">
+					<img class="toolbar-logo" src="./assets/images/logo.png" alt="Neokarma">
+				</md-toolbar>
+
+					<!-- Sign Up Form -->
+					<form #signUpForm="ngForm" class="md-padding form-elements sidebar-form" *ngIf="!user.IsAuthenticated()" (ngSubmit)="quickSignUp()">
+						<input class="md-margin" #nameElement #nameControl="ngModel" placeholder="Your Name" type="text" name="personalName" [(ngModel)]="personalName" required>
+						<input class="md-margin" #emailElement #emailControl="ngModel" placeholder="Your E-mail" type="email" maxlength="30" name="email" [(ngModel)]="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+						<button class="md-margin" md-raised-button color="accent" [disabled]="!signUpForm.form.valid">Sign Up</button>
+					</form>
+
+					<!-- User Bar -->
+					<md-list *ngIf="user.IsAuthenticated()">
+						<h3 md-subheader>Account</h3>
+						<md-list-item class="user-bar">
+							<md-icon md-list-avatar fontIcon="fa-user" class="fa-2x accent"></md-icon>
+							<h3 md-line class="accent">{{user.PersonalData.firstname}} {{user.PersonalData.lastname}}</h3>
+							<p md-line>Welcome to NeoKarma!</p>
+						</md-list-item>
+					</md-list>
+
+					<!-- Navigation List -->
+					<md-nav-list>
+						<h3 md-subheader>Menu</h3>
+
+						<!-- Markets -->
+						<a md-list-item routerLink="/markets" routerLinkActive="active" (click)="closeNav()">
+							<p md-line>Markets</p>
+							<md-icon fontIcon="fa-line-chart"></md-icon>
+						</a>
+
+						<!-- Alerts -->
+						<a md-list-item routerLink="/markets/alerts" routerLinkActive="active" (click)="closeNav()">
+							<p md-line>My Alerts</p>
+							<md-icon fontIcon="fa-bell"></md-icon>
+						</a>
+
+						<a md-list-item routerLink="/markets/alerts" routerLinkActive="active" (click)="closeNav()">
+							<p md-line>Set Alert</p>
+							<md-icon fontIcon="fa-plus-square"></md-icon>
+						</a>
+
+						<a md-list-item routerLink="/reddit" routerLinkActive="active" (click)="closeNav()">
+							<p md-line>Reddit User Status</p>
+							<md-icon fontIcon="fa-line-chart"></md-icon>
+						</a>
+
+						<!-- Sign In  -->
+						<a md-list-item routerLink="/auth/login" routerLinkActive="active" (click)="closeNav()" *ngIf="!user.IsAuthenticated()">
+							<p md-line>Sign In</p>
+							<md-icon fontIcon="fa-user"></md-icon>
+						</a>
+
+						<!-- Sign In  -->
+							<!-- Logout -->
+						<a md-list-item (click)="logOut()" color="warn" *ngIf="user.IsAuthenticated()">
+							<p md-line>Log Out</p>
+							<md-icon fontIcon="fa-sign-out"></md-icon>
+						</a>
+					</md-nav-list>
+
+			</md-sidenav>
+
+			<div class="main-container" layout="column">
+				<!-- Main Toolbar -->
+				<md-toolbar color="primary" class="md-whiteframe-z1 main-toolbar">
+					<div flex layout="row" layout-align="space-between center">
+						<div layout="row" layout-align="start center" flex>
+							<button md-icon-button class="sidebar-toggle" (click)="sidenav.toggle()">
+								<md-icon class="md-24" fontIcon="fa-bars"></md-icon>
+							</button>
+
+							<div class="market-controls">
+								<button md-icon-button class="config-btn" (click)="addMarket()"><i class="fa fa-plus"></i></button>
+								<button md-icon-button class="config-btn"><i class="fa fa-bell"></i></button>
+							</div>
+							<!--<div class="form-elements" flex show hide-lt-md>
+								<input type="text" placeholder="Add markets to your dashboard" [(ngModel)]="marketName" debounce [debouncedelay]="500" (debounced)="searchMarket()" (keydown)="onSearchKeyDown($event)">
+							</div>-->
+						</div>
+						<span flex></span>
+						<div class="market-controls" layout="row" layout-align="start center" *ngIf="marketSearchActive">
+							
+							<button md-icon-button class="config-btn" [mdMenuTriggerFor]="sortMenu"><i class="fa fa-sort"></i></button>
+							<md-menu #sortMenu="mdMenu" class="color-icons">
+								<button md-menu-item (click)="sortBy('MarketCap', -1)">
+									<i class="fa fa-arrow-down"></i> MarketCap
+								</button>
+								<button md-menu-item (click)="sortBy('MarketCap', 1)">
+									<i class="fa fa-arrow-up"></i> MarketCap
+								</button>
+								<button md-menu-item (click)="sortBy('Price', -1)">
+									<i class="fa fa-arrow-down"></i> Price
+								</button>
+								<button md-menu-item (click)="sortBy('Price', 1)">
+									<i class="fa fa-arrow-up"></i> Price
+								</button>
+								<button md-menu-item (click)="sortBy('Volume', -1)">
+									<i class="fa fa-arrow-down"></i> Volume
+								</button>
+								<button md-menu-item (click)="sortBy('Volume', 1)">
+									<i class="fa fa-arrow-up"></i> Volume
+								</button>
+							</md-menu>
+							<button md-icon-button class="config-btn" (click)="setMarketViewMode('list', 1)" show hide-lt-md><i class="fa fa-list"></i></button>
+							<button md-icon-button class="config-btn" [mdMenuTriggerFor]="columnMenu" show hide-lt-md ><i class="fa fa-columns"></i></button>
+							<md-menu #columnMenu="mdMenu" class="color-icons">
+								<button md-menu-item (click)="setMarketViewMode('block', 5)">
+									5 item / row
+								</button>
+								<button md-menu-item (click)="setMarketViewMode('block', 4)">
+									4 item / row
+								</button>
+								<button md-menu-item (click)="setMarketViewMode('block', 3)">
+									3 item / row
+								</button>
+								<button md-menu-item (click)="setMarketViewMode('block', 2)">
+									2 item / row
+								</button>
+								<button md-menu-item (click)="setMarketViewMode('block', 1)">
+									1 item (List view)
+								</button>
+							</md-menu>
+						</div>
+					</div>
+				</md-toolbar>
+
+				<div class="main">
+					<ng-template tdLoading [tdLoadingUntil]="!pageLoading" tdLoadingStrategy="overlay" tdLoadingType="linear">
+						<router-outlet></router-outlet>
+					</ng-template>
+				</div>
+
+			</div>
+
+		</md-sidenav-container>
+	</div>
+</div>

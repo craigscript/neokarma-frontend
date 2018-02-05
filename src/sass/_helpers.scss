@@ -1,0 +1,112 @@
+.full-width {
+	width: 100%;
+}
+
+.full-height {
+	height: 100%;
+}
+
+.hide {
+	display: none;
+}
+
+.invisible {
+	visibility: hidden;
+}
+
+// Flex
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.flex-grow {
+	flex-grow: 1;
+}
+
+.no-shrink {
+	flex-shrink: 0;
+}
+
+// Font
+
+.bold {
+	font-weight: 700;
+}
+
+// Color
+
+.color-icons {
+
+	md-icon.mat-icon {
+		color: $accent;
+	}
+}
+
+.primary {
+	color: $primary;
+}
+
+.accent {
+	color: $accent;
+}
+
+.warn {
+	color: #ffd42a;
+}
+
+.red {
+	color: #e53935;
+}
+
+.favorite-color {
+	color: #ffca28;
+}
+
+// Padding
+
+.no-padding {
+	padding: 0 !important;
+}
+
+.pt-20 {
+	padding-top: 20px !important;
+}
+
+.pr-15 {
+	padding-right: 15px !important;
+}
+
+// Margin
+
+.no-margin {
+	margin: 0 !important;
+}
+
+.to-bottom {
+	margin-top: auto !important;
+}
+
+.mt-10 {
+	margin-top: 10px !important;
+}
+
+.mt-20 {
+	margin-top: 20px !important;
+}
+
+.mb-10 {
+	margin-bottom: 10px !important;
+}
+
+.ml-10 {
+	margin-left: 10px !important;
+}
+
+.mr-10 {
+	margin-right: 10px !important;
+}
+
+.mr-20 {
+	margin-right: 20px !important;
+}

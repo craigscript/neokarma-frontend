@@ -1,0 +1,19 @@
+.notification-row {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.notification-toggle {
+	max-height: 0 !important;
+	overflow: hidden;
+	transition: max-height 0.4s ease-out;
+	&.active {
+		max-height: 400px !important;
+		transition: max-height 0.6s ease-in;
+	}
+}
+
+.notifications-inner {
+	width: 100%;
+	padding-top: 20px;
+	padding-bottom: 10px;
+}

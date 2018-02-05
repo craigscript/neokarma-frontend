@@ -1,0 +1,60 @@
+<h2 md-dialog-title *ngIf="Market">Create Percent Change Alert for {{Market.name}}</h2>
+<form #twitterForm="ngForm">
+	<ng-template tdLoading [tdLoadingUntil]="!loadingMarket" tdLoadingStrategy="overlay" tdLoadingType="linear">
+		<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')" *ngIf="Market">
+
+			<!--<md-input-container class="full-width">
+				<input mdInput placeholder="Name of your alert" [(ngModel)]="Name" name="name">
+			</md-input-container>-->
+
+			<md-select placeholder="Select an Index" [(ngModel)]="Alert.alarmOptions.index" name="index" class="full-width mt-10" required>
+				<md-option *ngFor="let pricekey of PriceKeys" [value]="pricekey.value">
+					{{ pricekey.name }}
+				</md-option>
+			</md-select>
+
+			<md-select placeholder="Send an alert when?" [(ngModel)]="Alert.alarmOptions.method" name="method" class="full-width mt-10" required>
+				<md-option *ngFor="let comparemethod of CompareMethods" [value]="comparemethod.value">
+					{{ comparemethod.name }}
+				</md-option>
+			</md-select>
+
+			<md-input-container class="full-width mt-10" placeholder="Percentage">
+				<input mdInput placeholder="Percentage change in the {{Market.currency.base}} price of {{Market.currency.quote}}" [(ngModel)]="Alert.alarmOptions.change" name="change" required>
+			</md-input-container>
+
+			<md-select placeholder="Time range" [(ngModel)]="Alert.alarmOptions.range" name="range" class="full-width mt-10" required>
+				<md-option *ngFor="let period of Periods" [value]="period.value">
+					{{ period.name }}
+				</md-option>
+			</md-select>
+			<br /><br />
+			
+
+			
+
+			<!--<md-select placeholder="Select a source data" [(ngModel)]="options.extract" name="extract" class="full-width mt-10" required>
+				<md-option *ngFor="let extract of extracts" [value]="extract.value">
+					{{ extract.name }}
+				</md-option>
+			</md-select>
+
+			<md-input-container class="full-width">
+				<input mdInput placeholder="Topic" [formControl]="topicCtrl" [(ngModel)]="target" name="topic" required [mdAutocomplete]="topicSelector">
+
+				<md-autocomplete #topicSelector="mdAutocomplete">
+					<md-option *ngFor="let topic of filteredTopics" [value]="topic">
+						{{ topic }}
+					</md-option>
+				</md-autocomplete>
+			</md-input-container>
+
+			-->
+
+		</md-dialog-content>
+	</ng-template>
+	<md-dialog-actions fxLayoutAlign="space-around" class="mt-20">
+		<button md-raised-button color="primary" [disabled]="!twitterForm.form.valid" (click)="Save()">Set Alert</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

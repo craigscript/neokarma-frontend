@@ -1,0 +1,51 @@
+.main-toolbar {
+	md-icon {
+		font-size: 20px;
+	}
+}
+
+.sidebar-form {
+	font-size: 12px;
+
+	input {
+		padding: 8px;
+		margin-top: 0;
+	}
+
+	button {
+		font-size: inherit;
+		height: 31px;
+		line-height: 31px;
+
+		&[disabled] {
+			background-color: rgba(0, 0, 0, 0.22);
+			color: #fff;
+		}
+	}
+}
+
+.market-controls {
+	color: #fff;
+
+	button {
+		color: inherit;
+	}
+}
+
+.form-elements {
+	margin-right: 10px;
+
+	input {
+		padding: 5px;
+		margin: 0;
+		font-size: 14px;
+	}
+
+	small {
+		display: block;
+		font-size: 9px;
+		line-height: 1;
+		margin-top: 5px;
+		white-space: normal;
+	}
+}

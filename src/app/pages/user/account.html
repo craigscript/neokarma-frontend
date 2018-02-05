@@ -1,0 +1,100 @@
+<div layout-gt-sm="row" fxLayout.xs="column">
+
+	<md-card fxLayout="column" flex-gt-sm="50">
+		<div fxLayout="row" fxLayoutAlign="space-between center">
+			<div>
+				<md-card-title>Account Information</md-card-title>
+				<md-card-subtitle>Change account information & logon credentials</md-card-subtitle>
+			</div>
+			<button md-button class="config-btn" [mdMenuTriggerFor]="accountMenu">
+				<i class="fa fa-pencil-square-o"></i>
+			</button>
+		</div>
+
+		<md-menu class="account-menu" #accountMenu="mdMenu" [overlapTrigger]="false">
+			<button md-button class="full-width" (click)="updatePersonal()">Personal Info</button>
+			<button md-button class="full-width" (click)="changeEmail()">Change Email Address</button>
+			<button md-button class="full-width" color="warn" (click)="changePassword()">Change Password</button>
+		</md-menu>
+
+		<md-divider></md-divider>
+
+		<md-list class="color-icons">
+			<md-list-item layout-align="row">
+				<md-icon md-list-avatar fontIcon="fa-user"></md-icon>
+				<h3 md-line>{{user.PersonalData.firstname}} {{user.PersonalData.lastname}}</h3>
+				<p md-line>Your first & last name</p>
+			</md-list-item>
+			<md-list-item layout-align="row">
+				<md-icon md-list-avatar fontIcon="fa-envelope"></md-icon>
+				<h3 md-line>{{user.Data.email}}</h3>
+				<p md-line>Primary email address</p>
+			</md-list-item>
+		</md-list>
+	</md-card>
+
+	<md-card fxLayout="column" flex-gt-sm="50">
+		<md-card-title>Subscription / Service Status</md-card-title>
+		<md-card-subtitle>Manage your subscription & payments</md-card-subtitle>
+		<md-divider></md-divider>
+		<md-nav-list *ngIf="user.Data.subscription">
+			<a md-list-item layout-align="row">
+				<md-icon md-list-avatar class="bgc-amber-800" fontIcon="fa-refresh"></md-icon>
+				<h3 md-line>{{user.Data.subscription.name}}</h3>
+				<p md-line>Subscription Plan</p>
+			</a>
+		</md-nav-list>
+		<md-divider></md-divider>
+		<md-list class="color-icons" *ngIf="user.Data.subscription">
+			<md-list-item layout-align="row">
+				<md-icon md-list-avatar  fontIcon="fa-calendar"></md-icon>
+				<h3 md-line>{{user.Data.subscription.status}} (Expires on {{user.Data.subscription.expires | date: 'MMM d, y HH:mm:ss'}})</h3>
+				<p md-line>Subscription status</p>
+			</md-list-item>
+		</md-list>
+		<md-list class="color-icons" *ngIf="!user.Data.subscription">
+			<md-list-item layout-align="row">
+				<md-icon md-list-avatar  fontIcon="fa-calendar"></md-icon>
+				<h3 md-line>No Subscription</h3>
+			</md-list-item>
+		</md-list>
+
+		<md-divider></md-divider>
+		<md-card-actions class="to-bottom" fxLayoutAlign="space-around">
+			<button md-button color="primary" class="text-upper" routerLink="/app/plans" routerLinkActive="active">Change Subscription</button>
+			<button md-button color="accent" class="text-upper" routerLink="/app/user/affiliate-system" routerLinkActive="active">Affiliate System</button>
+		</md-card-actions>
+	</md-card>
+
+</div>
+
+<ng-template tdLoading [tdLoadingUntil]="!loadingPayments" tdLoadingStrategy="overlay">
+	<md-card>
+		<md-card-title>Payments</md-card-title>
+		<md-card-subtitle>Your payment history</md-card-subtitle>
+		<md-divider></md-divider>
+		<div style="overflow-x:auto;">
+			<table td-data-table>
+				<th td-data-table-column>
+					<md-icon md-list-avatar fontIcon="fa-money"></md-icon>
+					<span>Amount</span>
+				</th>
+				<th td-data-table-column>Gateway</th>
+				<th td-data-table-column>Subscription</th>
+				<th td-data-table-column>Status</th>
+				<th td-data-table-column>Date</th>
+				<tr td-data-table-row *ngFor="let payment of payments">
+					<td td-data-table-cell>{{payment.price}} ({{payment.currency}})</td>
+					<td td-data-table-cell>{{payment.gateway}}</td>
+					<td td-data-table-cell>{{payment.name}}</td>
+					<td td-data-table-cell>{{payment.status}}</td>
+					<td td-data-table-cell>{{(payment.paid==-1?payment.created:payment.paid) | date: 'MMM d, y HH:mm:ss'}}</td>
+				</tr>
+			</table>
+		</div>
+		<md-divider></md-divider>
+		<md-card-actions>
+			<a md-button routerLink="/app/faq" color="warn" class="text-upper">Need Help?</a>
+		</md-card-actions>
+	</md-card>
+</ng-template>

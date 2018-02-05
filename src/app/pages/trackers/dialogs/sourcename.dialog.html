@@ -1,0 +1,13 @@
+<h2 md-dialog-title>Create Source</h2>
+<form #sourceForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '350px' : '100%')">
+		<md-input-container>
+			<input mdInput placeholder="Name of your source" [(ngModel)]="Name" name="name" required>
+		</md-input-container>
+	</md-dialog-content>
+
+	<md-dialog-actions class="mt-20" layout="row" layout-align="space-around">
+		<button md-raised-button color="primary" [disabled]="!sourceForm.form.valid" (click)="saveName()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

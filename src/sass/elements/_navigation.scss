@@ -1,0 +1,134 @@
+.mat-toolbar.mat-primary {
+	background-color: #48253b;
+}
+
+.toolbar-logo {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 100%;
+}
+
+md-nav-list.nav-dropdown {
+	background-color: #464646;
+	padding: 0px;
+	max-height: 500px;
+	transition: max-height 0.25s ease-in;
+	visibility: 1;
+
+	&.collapsed {
+		max-height: 0px;
+		visibility: 0;
+		transition: max-height 0.25s ease-out;
+		overflow: hidden;
+	}
+}
+
+md-sidenav.mat-drawer {
+	background-color: #293237;
+
+	.mat-list .mat-list-item .mat-list-text>*,
+	.mat-nav-list .mat-list-item .mat-list-text>* {
+		font-weight: 300;
+	}
+
+	.mat-subheader,
+	md-list p {
+		color: rgba(255, 255, 255, 0.5);
+	}
+
+	// all menu levels
+	.mat-nav-list {
+		.mat-list-item {
+			position: relative;
+			color: #f4f4f4;
+
+			&:hover {
+				background-color: #464646;
+			}
+
+			&.active {
+				position: relative;
+				color: $accent;
+				background-color: #373737;
+				&::after {
+					content: '';
+					width: 2px;
+					height: 100%;
+					background-color: $accent;
+					position: absolute;
+					top: 0;
+					left: 0;
+				}
+
+				md-icon {
+					color: $accent;
+				}
+			}
+
+			p {
+				color: inherit;
+			}
+		}
+
+		.mat-list-item-content {
+			flex-direction: row-reverse;
+			padding-left: 25px;
+
+			md-icon {
+				margin-right: 10px;
+				color: $accent;
+				font-size: 20px;
+				text-align: center;
+			}
+		}
+	}
+
+	// first menu level
+	> .mat-nav-list {
+
+		> .mat-list-item {
+			border-top: 1px solid #373938;
+			border-bottom: 1px solid #232726;
+
+			&:first-of-type,
+			&:last-of-type {
+				&::after {
+					content: '';
+					position: absolute;
+					top: -2px;
+					left: 0;
+					right: 0;
+					height: 1px;
+					background-color: #232726;
+				}
+			}
+			&:last-of-type {
+				&::after {
+					background-color: #373938;
+					top: auto;
+  				bottom: -2px;
+				}
+			}
+		}
+
+		// second menu level
+		> md-nav-dropdown {
+
+			.mat-list-item {
+				&:hover {
+					background-color: #373737;
+				}
+
+				md-icon {
+					color: #a1a1a1;
+				}
+			}
+
+			.mat-list-item-content {
+				height: 48px;
+				padding-left: 39px;
+			}
+		}
+	}
+}

@@ -1,0 +1,62 @@
+<md-card>
+	<md-card-title><i class="fa fa-bell accent mr-10"></i>Trackers Notifications</md-card-title>
+	<md-card-subtitle>Currently set up notifications</md-card-subtitle>
+	<md-divider></md-divider>
+
+	<ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay">
+
+		<md-card-content>
+
+			<div class="text-center">
+				<md-card-subtitle class="no-padding">Number of Notifications</md-card-subtitle>
+				<p class="text-light-small mb-10">10/50</p>
+				<md-progress-bar color="accent" [value]="(10 / 50) * 100"></md-progress-bar>
+			</div>
+
+			<md-nav-list>
+				<h3 md-subheader>
+					<md-icon color="accent" md-list-avatar fontIcon="fa-envelope"></md-icon>
+					Notifications
+				</h3>
+				<md-list-item *ngIf="trackers.length == 0">
+					<h3 md-line>No notifications trackers here.</h3>
+				</md-list-item>
+
+				<div layout="row" layout-align="space-between center" *ngFor="let tracker of trackers">
+
+					<md-slide-toggle color="primary" [checked]="tracker.status == 'Active'" (change)="toggleStatus(tracker)"></md-slide-toggle>
+
+					<md-list-item class="flex-grow" [routerLink]="['/app/trackers/notification-wizard/', tracker._id]">
+						<md-icon md-list-avatar class="md-big-avatar" fontIcon="fa-reddit"></md-icon>
+						<h3 md-line>{{tracker.name}}</h3>
+					</md-list-item>
+
+					<div class="no-shrink">
+						<md-icon class="vertical-menu ml-10" [mdMenuTriggerFor]="menu" fontIcon="fa-ellipsis-v"></md-icon>
+						<md-menu #menu="mdMenu" class="color-icons">
+							<button md-menu-item (click)="editNotificationtracker(tracker)">
+								<md-icon fontIcon="fa-pencil-square-o"></md-icon>
+								Edit
+							</button>
+							<button md-menu-item [routerLink]="['/app/trackers/notification-wizard/', tracker._id]">
+								<md-icon fontIcon="fa-cogs"></md-icon>
+								Wizard
+							</button>
+							<button md-menu-item (click)="deleteNotificationTracker(tracker)">
+								<md-icon class="tc-red-400" fontIcon="fa-trash"></md-icon>
+								Delete
+							</button>
+						</md-menu>
+					</div>
+
+				</div>
+
+			</md-nav-list>
+
+			<button md-raised-button class="mt-20" color="primary" (click)="createNotificationTracker()">Create Notification Tracker</button>
+			<button md-raised-button class="ml-10" color="accent" routerLink="/app/trackers/notification-history">Notification History</button>
+
+		</md-card-content>
+
+	</ng-template>
+</md-card>

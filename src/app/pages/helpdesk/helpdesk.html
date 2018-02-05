@@ -1,0 +1,41 @@
+<md-card>
+	<md-card-title><i class="fa fa-envelope accent mr-10"></i>Create Support Ticket</md-card-title>
+	<md-divider></md-divider>
+	<md-card-content *ngIf="!ticketSent">
+
+		<form #helpDeskForm="ngForm">
+
+			<md-input-container class="full-width">
+				<input mdInput #subjectControl="ngModel" placeholder="Subject" type="text" name="subject" [(ngModel)]="subject" required>
+				<md-hint fxLayoutAlign="start">
+					<span [hidden]="subjectControl.valid || subjectControl.untouched" class="tc-red-600">Required</span>
+				</md-hint>
+			</md-input-container>
+
+			<md-select class="full-width" #categoryControl="ngModel" name="category" [(ngModel)]="category" placeholder="Category" required>
+				<md-option *ngFor="let category of categories" [value]="category">{{category}}</md-option>
+			</md-select>
+			<md-hint fxLayoutAlign="start">
+				<span [hidden]="categoryControl.valid || categoryControl.untouched" class="tc-red-600">Required</span>
+			</md-hint>
+
+			<md-input-container class="full-width">
+				<textarea mdInput #messageControl="ngModel" placeholder="Message" type="text" name="message" [(ngModel)]="message" required></textarea>
+				<md-hint fxLayoutAlign="start">
+					<span [hidden]="messageControl.valid || messageControl.untouched" class="tc-red-600">Required</span>
+				</md-hint>
+			</md-input-container>
+
+			<button class="text-upper" md-raised-button color="primary" [disabled]="!helpDeskForm.form.valid" (click)="createTicket()">Send</button>
+
+		</form>
+
+	</md-card-content>
+
+	<md-card-content *ngIf="ticketSent">
+		<p>Thank you for reaching out to us!</p>
+		<p>Your ticket has been created, please allow us 24 hours to reply! We will reply to your request to your email address!</p>
+	</md-card-content>
+</md-card>
+
+<tickets #tickets></tickets>

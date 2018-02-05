@@ -1,0 +1,214 @@
+<md-card>
+	<div fxLayout="row" fxLayoutAlign="space-between center">
+		<md-card-title><i class="fa fa-home accent mr-10"></i>Dashboard</md-card-title>
+		<button md-button class="config-btn" [mdMenuTriggerFor]="configMenu">
+			<i class="fa fa-cog"></i>
+		</button>
+	</div>
+
+	<md-menu class="config-menu" #configMenu="mdMenu" [overlapTrigger]="false">
+
+			<p class="md-padding">Quotas</p>
+			<md-list dense>
+				<md-list-item>
+					<md-checkbox [checked]="config.mentionsQuota" (change)="config.mentionsQuota = !config.mentionsQuota"></md-checkbox>
+					Mention Quota
+				</md-list-item>
+				<md-list-item>
+					<md-checkbox [checked]="config.trackingQuota" (change)="config.trackingQuota = !config.trackingQuota"></md-checkbox>
+					Tracking Quota
+				</md-list-item>
+				<md-list-item>
+					<md-checkbox [checked]="config.sourceQuota" (change)="config.sourceQuota = !config.sourceQuota"></md-checkbox>
+					Source Quota
+				</md-list-item>
+			</md-list>
+
+			<p class="md-padding">System</p>
+			<md-list dense>
+				<md-list-item>
+					<md-checkbox [checked]="config.accountDetails" (change)="config.accountDetails = !config.accountDetails"></md-checkbox>
+					Account details
+				</md-list-item>
+				<md-list-item>
+					<md-checkbox [checked]="config.serviceUsage" (change)="config.serviceUsage = !config.serviceUsage"></md-checkbox>
+					Tracking Records
+				</md-list-item>
+				<!--<md-list-item>
+				  <md-checkbox [checked]="config.trackingSpeed" (change)="config.trackingSpeed = !config.trackingSpeed"></md-checkbox>
+				  Tracking Speed
+				</md-list-item>-->
+			</md-list>
+
+			<p class="md-padding">Crypto Tickers</p>
+			<md-list dense>
+				<md-list-item *ngFor="let crypto of cryptoTickers">
+					<md-checkbox [checked]="crypto.show" (change)="crypto.show = !crypto.show"></md-checkbox>
+					{{crypto.name}}
+				</md-list-item>
+			</md-list>
+
+
+	</md-menu>
+</md-card>
+
+<div layout="column" layout-gt-sm="row" layout-wrap>
+
+	<md-card class="stats" flex>
+		<md-card-content>
+			<div fxLayout="row" fxLayoutAlign="start center">
+				<div class="stats-icon bg-orange">
+					<i class="fa fa-reddit-alien"></i>
+				</div>
+				<div>
+					<h3 class="stats-title">Reddit Posts</h3>
+					<md-counter class="text-light" speed="10" [target]="Stats.reddit"></md-counter>
+				</div>
+			</div>
+		</md-card-content>
+	</md-card>
+
+
+
+	<md-card class="stats" flex>
+		<md-card-content>
+			<div fxLayout="row" fxLayoutAlign="start center">
+				<div class="stats-icon bg-orange">
+					<i class="fa fa-twitter"></i>
+				</div>
+				<div>
+					<h3 class="stats-title">Tweets</h3>
+					<md-counter class="text-light" speed="10" [target]="Stats.tweets"></md-counter>
+				</div>
+			</div>
+		</md-card-content>
+	</md-card>
+
+
+	<md-card class="stats" flex>
+		<md-card-content>
+			<div fxLayout="row" fxLayoutAlign="start center">
+				<div class="stats-icon bg-orange">
+					<i class="fa fa-eye"></i>
+				</div>
+				<div>
+					<h3 class="stats-title">Mentions</h3>
+					<md-counter class="text-light" speed="10" [target]="Stats.mentions"></md-counter>
+				</div>
+			</div>
+		</md-card-content>
+	</md-card>
+
+
+
+	<md-card class="stats" flex>
+		<md-card-content>
+			<div fxLayout="row" fxLayoutAlign="start center">
+				<div class="stats-icon bg-orange">
+					<i class="fa fa-rss"></i>
+				</div>
+				<div>
+					<h3 class="stats-title">RSS</h3>
+					<md-counter class="text-light" speed="10" [target]="Stats.rss"></md-counter>
+				</div>
+			</div>
+		</md-card-content>
+	</md-card>
+
+
+</div>
+
+<div  layout="column" layout-gt-sm="row" layout-wrap>
+
+	<md-card flex *ngIf="config.mentionsQuota">
+		<div class="hide-card" (click)="config.mentionsQuota = false">
+			<i class="fa fa-times"></i>
+		</div>
+		<md-card-content class="text-center">
+			<div>
+				<h3 class="stats-title">Mentions</h3>
+				<md-simplechart type="donut" [data]="MentionQuota"></md-simplechart>
+				<md-counter class="text-light" [target]="MentionQuota[0]" [speed]="10"></md-counter>
+				<span class="text-light">/</span>
+				<md-counter class="text-light" [target]="MentionQuota[1]" [speed]="10"></md-counter>
+			</div>
+		</md-card-content>
+	</md-card>
+
+
+	<md-card flex *ngIf="config.trackingQuota">
+		<div class="hide-card" (click)="config.trackingQuota = false">
+			<i class="fa fa-times"></i>
+		</div>
+		<md-card-content class="text-center">
+			<div>
+				<h3 class="stats-title">Mention Sources</h3>
+				<md-simplechart type="donut" [data]="SourceQuota"></md-simplechart>
+				<md-counter class="text-light" [target]="SourceQuota[0]" [speed]="10"></md-counter>
+				<span class="text-light">/</span>
+				<md-counter class="text-light" [target]="SourceQuota[1]" [speed]="10"></md-counter>
+			</div>
+		</md-card-content>
+	</md-card>
+
+
+
+	<md-card flex *ngIf="config.sourceQuota">
+		<div class="hide-card" (click)="config.sourceQuota = false">
+			<i class="fa fa-times"></i>
+		</div>
+		<md-card-content class="text-center">
+			<div>
+				<h3 class="stats-title">Trackers</h3>
+				<md-simplechart type="donut" [data]="TrackingQuota"></md-simplechart>
+				<md-counter class="text-light" [target]="TrackingQuota[0]" [speed]="10"></md-counter>
+				<span class="text-light">/</span>
+				<md-counter class="text-light" [target]="TrackingQuota[1]" [speed]="10"></md-counter>
+			</div>
+		</md-card-content>
+	</md-card>
+
+</div>
+
+<div layout="column" layout-gt-sm="row" layout-wrap>
+	<md-ticker *ngFor="let crypto of cryptoTickers" [ticker]="crypto" flex></md-ticker>
+</div>
+
+<div layout="column" layout-gt-sm="row" layout-wrap>
+
+	<md-card flex *ngIf="config.accountDetails">
+		<div class="hide-card" (click)="config.accountDetails = false">
+			<i class="fa fa-times"></i>
+		</div>
+		<md-card-content fxLayout="column">
+			<h3 class="stats-title">Subscription details</h3>
+			<div>
+				<h4 class="stats-title">Current plan</h4>
+				<span class="text-light-small">Bussiness Advanced</span>
+			</div>
+			<div class="stats mt-20">
+				<h4 class="stats-title">Days before expires</h4>
+				<md-counter class="text-light" [target]="17"></md-counter>
+				<span class="text-light">/</span>
+				<md-counter class="text-light" [target]="31"></md-counter>
+				<md-progress-bar class="mt-10" color="accent" [value]="17 / 31 * 100"></md-progress-bar>
+			</div>
+			<md-divider class="mb-10"></md-divider>
+			<md-card-actions class="text-center to-bottom">
+				<button md-raised-button color="accent" class="text-upper" routerLink="/app/plans" routerLinkActive="active">Change Subscription</button>
+			</md-card-actions>
+		</md-card-content>
+	</md-card>
+
+	<md-card flex *ngIf="config.serviceUsage">
+		<div class="hide-card" (click)="config.serviceUsage = false">
+			<i class="fa fa-times"></i>
+		</div>
+		<md-card-content class="text-center">
+
+			<h3 class="stats-title">Records in past 15 minutes</h3>
+			<md-simplechart class="server-load-chart" type="barline" [speed]="2" [data]="ServerLoad"></md-simplechart>
+
+		</md-card-content>
+	</md-card>
+</div>

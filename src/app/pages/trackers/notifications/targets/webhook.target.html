@@ -1,0 +1,13 @@
+<div fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="start center">
+
+	<md-select class="no-padding" [class.full-width]="media.query('xs')" placeholder="Request Method" [(ngModel)]="targetOptions.method" name="targetMethod">
+		<md-option value="GET">GET</md-option>
+		<md-option value="POST">POST</md-option>
+		<md-option value="PUT">PUT</md-option>
+		<md-option value="DELETE">DELETE</md-option>
+	</md-select>
+
+	<md-input-container class="ml-10" [class.full-width]="media.query('xs')">
+		<input mdInput placeholder="Webhook URL" name="targetUrl" [(ngModel)]="targetOptions.url" required>
+	</md-input-container>
+</div>

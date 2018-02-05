@@ -1,0 +1,45 @@
+<h2 md-dialog-title>Create Market Source</h2>
+<form #marketForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+
+		<md-input-container class="full-width">
+			<input mdInput placeholder="Name your market source" [(ngModel)]="name" name="name" required>
+		</md-input-container>
+
+		
+		<p> Selected source: {{target}} {{options.market}} {{options.currency}} {{options.query}} </p>
+
+		<ng-template tdLoading [tdLoadingUntil]="!loadingMarketOptions" tdLoadingStrategy="overlay" tdLoadingType="linear">
+			<md-select placeholder="Select an exchange" [(ngModel)]="target" (change)="selectExchange()" name="exchange" class="full-width" required>
+				<md-option *ngFor="let exchange of exchanges" [value]="exchange">
+					{{ marketOptions[exchange].name }}
+				</md-option>
+			</md-select>
+
+			<md-select *ngIf="target" placeholder="Select a market" [(ngModel)]="options.market" (change)="selectMarket()" name="market" class="full-width mt-20" required>
+				<md-option *ngFor="let market of markets" [value]="market">
+					{{  marketOptions[target].markets[market].name }}
+				</md-option>
+			</md-select>
+
+			<md-select *ngIf="target && options.market" placeholder="Select a currency" [(ngModel)]="options.currency" (change)="selectCurrency()" name="currency" class="full-width mt-20" required>
+				<md-option *ngFor="let currency of currencies" [value]="currency">
+					{{  marketOptions[target].markets[options.market].currencies[currency].name }}
+				</md-option>
+			</md-select>
+
+			<md-select *ngIf="target" placeholder="Select Data" [(ngModel)]="options.query" (change)="selectQuery()" name="query" class="full-width mt-20" required>
+				<md-option *ngFor="let query of queries" [value]="query">
+					{{  marketOptions[target].queries[query] }}
+				</md-option>
+			</md-select>
+
+		
+		</ng-template>
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around" class="mt-20">
+		<button md-raised-button color="primary" [disabled]="!marketForm.form.valid" (click)="Save()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

@@ -1,0 +1,15 @@
+<md-card>
+	<md-card-content>
+		<div layout="column" layout-align="center center">
+			<div class="stats-icon">
+				<i class="cc {{ticker.icon}}"></i>
+			</div>
+			<h3 class="stats-title">{{ticker.name}}</h3>
+			<div>
+				<md-counter class="text-light" speed="10" [target]="ticker.value" decimals="8"></md-counter>
+				<i class="fa fa-arrow-up market-status-change market-{{increased?'inc':'dec'}}"></i>
+			</div>
+			<h5 class="stats-title">{{ticker.description}}</h5>
+		</div>
+	</md-card-content>
+</md-card>

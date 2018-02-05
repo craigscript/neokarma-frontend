@@ -1,0 +1,15 @@
+<h2 md-dialog-title>Add Target</h2>
+<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+	<md-nav-list class="color-icons">
+		<md-list-item *ngFor="let target of targets" (click)="createTarget(target)">
+			<md-icon color="primary" md-list-avatar [fontIcon]="getTarget(target).icon"></md-icon>
+			<h3 md-line>{{getTarget(target).title}}</h3>
+			<p md-line>{{getTarget(target).description}}</p>
+		</md-list-item>
+	</md-nav-list>
+
+</md-dialog-content>
+
+<md-dialog-actions fxLayoutAlign="end">
+	<button md-raised-button [md-dialog-close]="false">Cancel</button>
+</md-dialog-actions>

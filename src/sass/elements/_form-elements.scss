@@ -1,0 +1,51 @@
+.form-elements {
+
+	input[type='text'],
+	input[type='email'],
+	input[type='tel'],
+	input[type='url'],
+	input[type='search'],
+	input[type='password'],
+	textarea,
+	select {
+		font-family: inherit;
+		width: 100%;
+		max-width: 100%;
+		background: none;
+		outline: 0 none;
+		border: 1px solid #e1e5e8;
+		border-radius: 2px;
+		padding: 15px;
+		color: $text-color;
+		background-color: #f3f3f3;
+		margin-top: 10px;
+		margin-bottom: 10px;
+
+		&.ng-invalid:not(.ng-untouched) {
+			border-color: #e53935;
+		}
+
+		&:focus {
+			border-color: #999;
+		}
+	}
+
+	textarea {
+		resize: none;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.form-elements {
+		input[type='text'],
+		input[type='email'],
+		input[type='tel'],
+		input[type='url'],
+		input[type='search'],
+		input[type='password'],
+		textarea,
+		select {
+			padding: 5px;
+		}
+	}
+}

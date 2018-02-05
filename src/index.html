@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script>document.write('<base href="' + document.location + '" />');</script>
+	<meta charset="utf-8">
+	<title>Neokarma - Portal</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
+	<link rel="icon" type="image/png" href="./assets/images/favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="./assets/images/favicon-16x16.png" sizes="16x16" />
+
+	<style>
+	body {
+		margin: 0;
+	}
+	.pre-wrap {
+		color: #fff;
+		background-color: #519CAE;
+		min-height: 100vh;
+	}
+	.pre-load {
+		position: absolute;
+		top: 0; bottom: 0; left: 0; right: 0;
+		width: 200px;
+		height: 200px;
+		margin: auto;
+		border: 5px solid #519CAE;
+		border-radius: 50%;
+		box-sizing: content-box;
+		-webkit-animation: borderScale 1.75s infinite ease-out;
+		animation: borderScale 1.75s infinite ease-out;
+		
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.pre-text {
+		font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+		font-size: 2em;
+		text-align:center;
+		vertical-align:center;
+	}
+	.pre-text img {
+		width:150px;
+	}
+	@-webkit-keyframes borderScale {
+		0% {
+			border: 1px solid white;
+			background:rgba(81, 156, 174, 1);
+		}
+		90% {
+			border: 35px solid #519CAE;
+			background:rgba(81, 156, 174, 0);
+		}
+	
+	}
+	@keyframes borderScale {
+		0% {
+			border: 1px solid white;
+			background:rgba(81, 156, 174, 1);
+		}
+		90% {
+			border: 35px solid #519CAE;
+			background:rgba(81, 156, 174, 0);
+		}
+	
+	}
+	</style>
+</head>
+<body>
+	<application>
+		<div class="pre-wrap">
+			<div class="pre-load">
+				<p class="pre-text">
+					<img src="./assets/images/logo.png" alt="Loading" />
+				</p>
+			</div>
+		</div>
+	</application>
+</body>
+</html>

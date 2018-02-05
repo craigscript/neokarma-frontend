@@ -1,0 +1,16 @@
+<h2 md-dialog-title>Select Actions</h2>
+
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+		<md-nav-list dense [style.height]="'50%'" class="color-icons">
+			<h3 md-subheader>Actions</h3>
+			<a md-list-item *ngFor="let Action of SelectableActions" (click)="createAction(Action)">
+				<md-icon md-list-avatar fontIcon="{{ActionMap[Action].icon}}" class="fa-lg"></md-icon>
+				<p md-line>{{ActionMap[Action].name}}</p>
+				<p md-line>{{ActionMap[Action].description}}</p>
+			</a>
+		</md-nav-list>
+	</md-dialog-content>
+
+<md-dialog-actions>
+	<button md-raised-button [md-dialog-close]="false">Cancel</button>
+</md-dialog-actions>

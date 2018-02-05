@@ -1,0 +1,66 @@
+<md-card>
+	<md-card-title><i class="fa fa-rss accent mr-10"></i>Mentions Feed</md-card-title>
+	<md-card-subtitle>Your latest mentions & notifications</md-card-subtitle>
+	<md-divider></md-divider>
+
+
+		<md-card-content>
+			<div class="text-center" fxHide.gt-xs>
+				<button md-raised-button class="filter-icon" (click)="toggleFilters(filtersContainer)">
+					<i class="fa fa-filter"></i>
+				</button>
+			</div>
+			<div #filtersContainer class="filters-container">
+				<md-card-subtitle class="no-padding"><i class="fa fa-filter accent mr-10"></i>Filters:</md-card-subtitle>
+				<div class="filters" layout="column" layout-gt-sm="row">
+
+					<!-- tracker filter -->
+					<md-select #trackerControl="ngModel" name="FilterTracker" [(ngModel)]="FilterTracker" placeholder="Tracker" (ngModelChange)="applyFilters()">
+						<md-option *ngFor="let tracker of Trackers" [value]="tracker">{{tracker.name}}</md-option>
+					</md-select>
+
+					<!-- source filter -->
+					<md-select #sourceControl="ngModel" name="FilterSource" [(ngModel)]="FilterSource" placeholder="Source" (ngModelChange)="applyFilters()">
+						<md-option *ngFor="let source of Sources" [value]="source.value">{{source.name}}</md-option>
+					</md-select>
+
+					<!-- type filter -->
+					<md-select #sourceControl="ngModel" name="SourceType" [(ngModel)]="SourceType" placeholder="Type" (ngModelChange)="applyFilters()">
+						<md-option *ngFor="let category of Categories" [value]="category.value">{{category.name}}</md-option>
+					</md-select>
+
+					<!-- title filter -->
+					<md-input-container class="word-filter">
+						<input mdInput #wordControl="ngModel" placeholder="Filter by title" type="text" name="FilterWord" [(ngModel)]="FilterWord" debounce [debouncedelay]="500" (debounced)="applyFilters()">
+					</md-input-container>
+
+					<!-- Date Picker Start -->
+					<md-input-container class="date-picker">
+						<input mdInput [mdDatepicker]="startDate" placeholder="Date Range Start">
+						<md-datepicker-toggle mdSuffix [for]="startDate"></md-datepicker-toggle>
+					</md-input-container>
+					<md-datepicker [touchUi]="(media.query('gt-xs') ? false : true)" #startDate [startAt]="StartDate" (selectedChanged)="startDateChanged($event)"></md-datepicker>
+
+					<!-- Date Picker End -->
+					<md-input-container class="date-picker">
+						<input mdInput [mdDatepicker]="endDate" placeholder="Date Range End">
+						<md-datepicker-toggle mdSuffix [for]="endDate"></md-datepicker-toggle>
+					</md-input-container>
+					<md-datepicker [touchUi]="(media.query('gt-xs') ? false : true)" #endDate [startAt]="EndDate" (selectedChanged)="endDateChanged($event)"></md-datepicker>
+				</div>
+				<!-- sentiment filter -->
+				<div class="range-wrap" layout="row" layout-align="start center">
+					<md-card-subtitle class="no-padding">Sentiment Score:</md-card-subtitle>
+					<div class="range-inner">
+						<nouislider [config]="scoreRangeConfig" [(ngModel)]="scoreRange" (change)="applyFilters()"></nouislider>
+					</div>
+				</div>
+			</div>
+
+		</md-card-content>
+
+		<md-divider></md-divider>
+
+		<neo-mentions-feed-list></neo-mentions-feed-list>
+		<div #infinityScrollPoint></div>
+</md-card>

@@ -1,0 +1,39 @@
+<h2 md-dialog-title>Create Mention Source</h2>
+<form #mentionForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+
+		<md-input-container class="full-width">
+			<input mdInput placeholder="Name of your source" [(ngModel)]="name" name="name" required>
+		</md-input-container>
+
+		<md-input-container class="full-width">
+			<input mdInput placeholder="Mention Tracker" [mdAutocomplete]="mentiontrackerAutocomplete" [(ngModel)]="target" name="mentiontracker" required>
+		</md-input-container>
+
+		<md-autocomplete #mentiontrackerAutocomplete="mdAutocomplete" class="full-width" required>
+			<md-option *ngFor="let tracker of trackers" [value]="tracker.name">
+				{{ tracker.name }}
+			</md-option>
+		</md-autocomplete>
+
+		<div fxLayout="row" fxLayoutAlign="start center">
+		<md-select placeholder="Select a source data" [(ngModel)]="options.extract" name="extract" class="flex-grow mt-10" required>
+			<md-option *ngFor="let extract of extracts" [value]="extract.value">
+				{{ extract.name }}
+			</md-option>
+		</md-select>
+		<div *ngIf="tooltips" class="tooltip">
+			<i class="fa fa-info-circle"></i>
+			<div class="tooltip-content">
+				<p *ngFor="let tooltip of tooltips">{{tooltip}}</p>
+			</div>
+		</div>
+	</div>
+
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around" class="mt-20">
+		<button md-raised-button color="primary" [disabled]="!mentionForm.form.valid" (click)="Save()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

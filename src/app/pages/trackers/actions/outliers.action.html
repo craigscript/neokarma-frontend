@@ -1,0 +1,12 @@
+<h2 md-dialog-title>Outliers Detection</h2>
+<md-dialog-content class="pt-20" [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+	<form standalone>
+		<span class="md-padding">Threshold</span>
+		<md-slider min="0.0" max="5.0" step="0.05" [(ngModel)]="threshold" [value]="threshold" thumb-label="true" name="threshold"></md-slider>
+	</form>
+</md-dialog-content>
+
+<md-dialog-actions layout="row" layout-align="space-around" class="mt-20">
+	<button md-raised-button color="primary" (click)="saveAction()">Save</button>
+	<button md-raised-button md-dialog-close>Cancel</button>
+</md-dialog-actions>

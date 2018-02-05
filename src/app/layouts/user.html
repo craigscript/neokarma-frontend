@@ -1,0 +1,173 @@
+<div class="content md-content" layout="column" layout-fill>
+	<div flex layout="column" class="content md-content">
+		<md-sidenav-container fullscreen class="td-layout-nav-list" layout="row" flex>
+			<md-sidenav #sidenav layout="column" layout-fill class="md-whiteframe-z1"
+			[mode]="(media.query('gt-sm')?'side':'over')"
+			[opened]="media.query('gt-sm')"
+			[style.max-width]="(media.query('gt-xs') ? '300px' : '80%')">
+
+				<md-toolbar color="primary" class="md-whiteframe-z1">
+					<img class="toolbar-logo" src="./assets/images/logo.png" alt="Neokarma">
+				</md-toolbar>
+
+					<!-- User Bar -->
+					<md-list>
+						<h3 md-subheader>Account</h3>
+						<md-list-item class="user-bar">
+							<md-icon md-list-avatar fontIcon="fa-user" class="fa-2x accent"></md-icon>
+							<h3 md-line class="accent">{{user.PersonalData.firstname}} {{user.PersonalData.lastname}}</h3>
+							<p md-line>Welcome to NeoKarma!</p>
+						</md-list-item>
+					</md-list>
+
+					<!-- Navigation List -->
+					<md-nav-list>
+						<h3 md-subheader>Menu</h3>
+						<!-- Dashboard -->
+						<a md-list-item routerLink="/app/dashboard" routerLinkActive="active" (click)="closeNav()">
+							<p md-line>Dashboard</p>
+							<md-icon fontIcon="fa-home"></md-icon>
+						</a>
+
+						<!-- Trackers Monitor -->
+						<a md-list-item routerLink="/app/trackers/monitor" routerLinkActive="active" (click)="closeNav()">
+							<p md-line>Monitor</p>
+							<md-icon fontIcon="fa-line-chart"></md-icon>
+						</a>
+
+						<!-- Trackers -->
+						<a md-list-item (click)="trackers.toggle()">
+							<p md-line>Tracking</p>
+							<md-icon fontIcon="fa-crosshairs"></md-icon>
+						</a>
+					
+						<md-nav-dropdown #trackers>
+							<a md-list-item routerLink="/app/trackers/my" routerLinkActive="active" (click)="closeNav()">
+								<p md-line>My Trackers</p>
+								<md-icon fontIcon="fa-bars"></md-icon>
+							</a>
+							<a md-list-item routerLink="/app/trackers/notifications" routerLinkActive="active">
+								<p md-line>Notifications</p>
+								<md-icon fontIcon="fa-bell"></md-icon>
+							</a>
+
+						</md-nav-dropdown>
+
+						<!-- Mentions -->
+						<a md-list-item (click)="mentions.toggle()">
+							<p md-line>Mentions</p>
+							<md-icon fontIcon="fa-bullseye"></md-icon>
+						</a>
+						<md-nav-dropdown #mentions>
+							<a md-list-item routerLink="/app/mentions/monitor" routerLinkActive="active" (click)="closeNav()">
+								<p md-line>Overview</p>
+								<md-icon fontIcon="fa-area-chart"></md-icon>
+							</a>
+							<a md-list-item routerLink="/app/mentions/feed" routerLinkActive="active" (click)="closeNav()">
+								<p md-line>Feed</p>
+								<md-icon fontIcon="fa-rss"></md-icon>
+							</a>
+							<a md-list-item routerLink="/app/mentions/trackers" routerLinkActive="active" (click)="closeNav()">
+								<p md-line>Tracking & Words</p>
+								<md-icon fontIcon="fa-bars"></md-icon>
+							</a>
+						</md-nav-dropdown>
+
+						<!-- HELP -->
+						<a md-list-item (click)="helpDesk.toggle()">
+							<p md-line>Help</p>
+							<md-icon fontIcon="fa-info"></md-icon>
+						</a>
+						<md-nav-dropdown #helpDesk>
+
+							<!-- FAQ -->
+							<a md-list-item routerLink="/app/faq" routerLinkActive="active" (click)="closeNav()">
+								<p md-line>FAQ</p>
+								<md-icon fontIcon="fa-question"></md-icon>
+							</a>
+
+							<!-- Help desk -->
+							<a md-list-item routerLink="/app/helpdesk" routerLinkActive="active" (click)="closeNav()">
+								<p md-line>Help Desk</p>
+								<md-icon fontIcon="fa-envelope"></md-icon>
+							</a>
+						</md-nav-dropdown>
+
+						<!-- Settings -->
+						<a md-list-item routerLink="/app/user/account" routerLinkActive="active" (click)="closeNav()">
+							<p md-line>My Account</p>
+							<md-icon fontIcon="fa-user"></md-icon>
+						</a>
+
+						<!-- Logout -->
+						<a md-list-item (click)="logOut()" color="warn">
+							<p md-line>Log Out</p>
+							<md-icon fontIcon="fa-sign-out"></md-icon>
+						</a>
+					</md-nav-list>
+
+
+			</md-sidenav>
+
+			<div class="main-container" layout="column">
+				<!-- Main Toolbar -->
+				<md-toolbar color="primary" class="md-whiteframe-z1 main-toolbar">
+					<button md-icon-button class="sidebar-toggle" (click)="sidenav.toggle()">
+						<md-icon class="md-24" fontIcon="fa-bars"></md-icon>
+					</button>
+
+					<span flex></span>
+					<button md-icon-button [mdMenuTriggerFor]="userMenu">
+						<md-icon class="md-24" fontIcon="fa-user"></md-icon>
+					</button>
+
+					<md-menu #userMenu="mdMenu" class="color-icons" [overlapTrigger]="false">
+						<button md-menu-item routerLink="/app/user/account" routerLinkActive="active">
+							<md-icon class="md-24" fontIcon="fa-cogs"></md-icon>
+							<span>My Account</span>
+						</button>
+						<button md-menu-item (click)="logOut()">
+							<md-icon class="md-24" fontIcon="fa-sign-out"></md-icon>
+							<span>Logout</span>
+						</button>
+					</md-menu>
+
+					<button md-icon-button [mdMenuTriggerFor]="notificationsMenu">
+						<td-notification-count color="warn" [notifications]="Notifications.length">
+							<md-icon class="md-24" fontIcon="fa-bell"></md-icon>
+						</td-notification-count>
+					</button>
+
+					<md-menu #notificationsMenu="mdMenu" [overlapTrigger]="false">
+						<td-menu>
+							<div td-menu-header class="md-subhead">Notifications</div>
+							<md-nav-list dense>
+								<a md-list-item *ngIf="Notifications.length == 0">
+									<h4 md-line><span class="text-wrap">Nothing here yet.</span></h4>
+								</a>
+								<a md-list-item *ngFor="let notification of Notifications">
+									<h4 md-line><span class="text-wrap">{{notification.count}} new {{notification.subject}}</span></h4>
+								</a>
+							</md-nav-list>
+							<a md-button td-menu-footer color="warn" routerLink="/app/user/notification-history" routerLinkActive="active">See All Notifications</a>
+						</td-menu>
+					</md-menu>
+				</md-toolbar>
+
+				<div class="main">
+					<ng-template tdLoading [tdLoadingUntil]="!pageLoading" tdLoadingStrategy="overlay" tdLoadingType="linear">
+						<div class="important-alerts" *ngIf="Alerts.length > 0">
+							<div class="important-msg" *ngFor="let alert of Alerts">
+								<i class="important-msg-icon fa fa-exclamation-circle"></i>
+								{{alert.message}}
+							</div>
+						</div>
+						<router-outlet></router-outlet>
+					</ng-template>
+				</div>
+
+			</div>
+
+		</md-sidenav-container>
+	</div>
+</div>

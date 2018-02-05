@@ -1,0 +1,146 @@
+<div class="md-content">
+	<div flex-gt-xs="100">
+		<md-card>
+			<md-card-title><i class="fa fa-filter accent mr-10"></i>Source Filter / Action Wizard</md-card-title>
+			<md-card-subtitle>Tweak your data source</md-card-subtitle>
+			<md-divider></md-divider>
+			<ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay">
+				<td-steps [mode]="(media.query('gt-sm')?'horizontal':'vertical')">
+
+					<td-step #filtersStep label="Filters" sublabel="Filter your sources" [active]="true">
+
+						<div class="text-center">
+							<md-card-subtitle class="no-padding">Number of Filters</md-card-subtitle>
+							<div class="text-light-small mb-10">1/10</div>
+							<md-progress-bar [value]="(1 * 100) / 10"></md-progress-bar>
+						</div>
+
+						<md-divider class="mt-20"></md-divider>
+
+						<div layout="row">
+							<md-nav-list flex dense>
+								<h3 md-subheader>Filters applied to this source</h3>
+								<a md-list-item *ngFor="let filter of Source.filters" (click)="editFilter(filter)">
+									<md-icon color="primary" md-list-avatar fontIcon="{{getFilterFromMap(filter.name).icon}}" class="fa-lg"></md-icon>
+									<p md-line>{{getFilterFromMap(filter.name).name}}</p>
+									<p md-line>{{getFilterFromMap(filter.name).description}}</p>
+									<button md-raised-button color="warn" (click)="removeFilter(filter)" class="text-upper">Remove</button>
+								</a>
+							</md-nav-list>
+						</div>
+						<ng-template td-step-actions>
+							<button md-raised-button color="accent" (click)="addFilter()" class="text-upper">Add Filter</button>
+							<button md-raised-button color="primary" (click)="finishFilters()" class="text-upper ml-10">Save Filters</button>
+						</ng-template>
+					</td-step>
+
+					<td-step #actionsStep label="Actions" sublabel="Create actions & modify the output value of your source">
+
+						<div class="text-center">
+							<md-card-subtitle class="no-padding">Number of Actions</md-card-subtitle>
+							<div class="text-light-small mb-10">1/10</div>
+							<md-progress-bar [value]="(1 * 100) / 10"></md-progress-bar>
+						</div>
+
+						<md-divider class="mt-20"></md-divider>
+
+						<div layout="row">
+							<md-nav-list flex dense class="color-icons">
+								<h3 md-subheader>Actions performed on this source</h3>
+								<a md-list-item *ngFor="let action of Source.actions" (click)="editAction(action)">
+									<md-icon md-list-avatar fontIcon="{{getActionFromMap(action.name).icon}}" class="fa-lg"></md-icon>
+									<p md-line>{{getActionFromMap(action.name).name}}</p>
+									<p md-line>{{getActionFromMap(action.name).description}}</p>
+									<button md-raised-button color="warn" (click)="removeAction(action)" class="text-upper">Remove</button>
+								</a>
+							</md-nav-list>
+						</div>
+						<ng-template td-step-actions>
+							<button md-raised-button color="accent" (click)="addAction()" class="text-upper">Add Actions</button>
+							<button md-raised-button color="primary" (click)="finishActions()" class="text-upper ml-10">Save Actions</button>
+						</ng-template>
+					</td-step>
+
+					<td-step #finalStep label="Finish" sublabel="Overview of your source">
+						<md-list flex class="color-icons">
+							<h3 md-subheader>Source</h3>
+							<md-list-item>
+								<md-icon md-list-avatar fontIcon="fa-reddit"></md-icon>
+								<p md-line>Reddit</p>
+								<p md-line>Use reddit data</p>
+							</md-list-item>
+							<md-list-item>
+								<md-icon md-list-avatar fontIcon="fa-asterisk"></md-icon>
+								<p md-line>Extract </p>
+								<p md-line>Post Count </p>
+							</md-list-item>
+							<h3 md-subheader>Filter</h3>
+							<md-list-item *ngFor="let filter of Source.filters">
+								<md-icon md-list-avatar fontIcon="{{getFilterFromMap(filter.name).icon}}"  class="fa-lg"></md-icon>
+								<p md-line>{{getFilterFromMap(filter.name).name}}</p>
+								<p md-line>{{getFilterFromMap(filter.name).description}}</p>
+							</md-list-item>
+							<h3 md-subheader>Perform</h3>
+							<md-list-item *ngFor="let action of Source.actions">
+								<md-icon md-list-avatar fontIcon="{{getActionFromMap(action.name).icon}}"  class="fa-lg"></md-icon>
+								<p md-line>{{getActionFromMap(action.name).name}}</p>
+								<p md-line>{{getActionFromMap(action.name).description}}</p>
+							</md-list-item>
+							<h3 md-subheader><b>Return with result...</b></h3>
+						</md-list>
+						<ng-template td-step-actions>
+							<button md-raised-button color="warn" (click)="finishAll()" class="text-upper">Finish setup</button>
+						</ng-template>
+					</td-step>
+
+				</td-steps>
+			</ng-template>
+
+			<md-divider></md-divider>
+
+			<div class="md-padding filters-container" layout="row" layout-align="space-around end" layout-wrap>
+				<md-select [class]="(media.query('xs') ? 'full-width mt-20' : '')" placeholder="Zoom">
+					<md-option (click)="SetDataInterval(60*5)" value="5 minutes">5 minutes</md-option>
+					<md-option (click)="SetDataInterval(60*15)" value="15 minutes">15 minutes</md-option>
+					<md-option (click)="SetDataInterval(60*30)" value="30 minutes">30 minutes</md-option>
+					<md-option (click)="SetDataInterval(60*60*2)" value="2 hours">2 hours</md-option>
+					<md-option (click)="SetDataInterval(60*60*4)" value="4 hours">4 hours</md-option>
+					<md-option (click)="SetDataInterval(60*60*24)" value="24 hours">24 hours</md-option>
+				</md-select>
+				<md-checkbox color="primary" (change)="toggleStack()">Collapse</md-checkbox>
+				<md-checkbox color="primary" (change)="toggleNormalize()">Normalize</md-checkbox>
+
+				<!-- Date Picker Start -->
+				<md-input-container class="date-picker" [class]="(media.query('xs') ? '' : 'mr-10')">
+					<input mdInput [mdDatepicker]="startDate" placeholder="Date Range Start">
+					<md-datepicker-toggle mdSuffix [for]="startDate"></md-datepicker-toggle>
+				</md-input-container>
+				<md-datepicker [touchUi]="(media.query('gt-xs') ? false : true)" #startDate [startAt]="StartDate" (selectedChanged)="startDateChanged($event)"></md-datepicker>
+
+				<!-- Date Picker End -->
+				<md-input-container class="date-picker">
+					<input mdInput [mdDatepicker]="endDate" placeholder="Date Range End">
+					<md-datepicker-toggle mdSuffix [for]="endDate"></md-datepicker-toggle>
+				</md-input-container>
+				<md-datepicker [touchUi]="(media.query('gt-xs') ? false : true)" #endDate [startAt]="EndDate" (selectedChanged)="endDateChanged($event)"></md-datepicker>
+
+				<md-select placeholder="Time zone" [(ngModel)]="userTimezone">
+					<md-option *ngFor="let timezone of timezones" [value]="timezone">{{timezone}}</md-option>
+				</md-select>
+			</div>
+
+			<md-divider></md-divider>
+
+			<ng-template tdLoading [tdLoadingUntil]="!loadingChart" tdLoadingStrategy="overlay" tdLoadingType="linear">
+				<div class="md-padding">
+					<md-chart #TrackerChart style="width:100%;"
+					[datasets]="ChartData"
+					[labels]="ChartLabels"
+					[options]="ChartOptions"
+					[chartType]="ChartType"></md-chart>
+				</div>
+			</ng-template>
+
+		</md-card>
+	</div>
+</div>

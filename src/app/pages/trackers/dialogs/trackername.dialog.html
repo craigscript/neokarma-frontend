@@ -1,0 +1,12 @@
+<h2 md-dialog-title>Name your Tracker</h2>
+<form standalone>
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '350px' : '100%')">
+		<md-input-container class="full-width">
+			<input mdInput #nameTracker placeholder="Name of your tracker" name="name" [(ngModel)]="Name" required>
+		</md-input-container>
+	</md-dialog-content>
+	<md-dialog-actions fxLayoutAlign="space-around">
+		<button md-raised-button color="primary" (click)="saveName()" [disabled]="!nameTracker.value">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

@@ -1,0 +1,30 @@
+<md-card>
+	<md-card-title><i class="fa fa-envelope-open accent mr-10"></i>Previous tickets</md-card-title>
+	<md-divider></md-divider>
+	<md-card-content>
+		<ng-template tdLoading [tdLoadingUntil]="!loadingTickets" tdLoadingStrategy="overlay" tdLoadingType="linear">
+			<div *ngIf="tickets.length == 0">
+				<p>You not have open tickets.</p>
+			</div>
+
+			<div class="tickets" *ngIf="tickets.length > 0">
+
+				<div *ngFor="let ticket of tickets">
+					<div class="ticket">
+
+						<div class="ticket-status">
+							<md-icon *ngIf="ticket.status == 'Closed'" fontIcon="fa-check-circle" title="Ticket is closed"></md-icon>
+							<md-icon *ngIf="ticket.status == 'Open'" fontIcon="fa-circle-o" title="Open"></md-icon>
+						</div>
+
+						<div class="ticket-info">
+							<h3>{{ticket.subject}}</h3>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</ng-template>
+	</md-card-content>
+</md-card>

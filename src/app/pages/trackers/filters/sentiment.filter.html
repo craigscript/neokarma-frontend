@@ -1,0 +1,21 @@
+<h2 md-dialog-title>Sentiment Filter</h2>
+<form #wordForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+
+		<div class="full-width">
+			<span class="md-padding">Min Score</span>
+			<md-slider min="-10" max="10" step="0.01" [(ngModel)]="Min" [value]="Min" thumb-label="true" name="Min"></md-slider>
+		</div>
+
+		<div class="full-width">
+			<span class="md-padding">Max Score</span>
+			<md-slider min="-10" max="10" step="0.01" [(ngModel)]="Max" [value]="Max" thumb-label="true" name="Max"></md-slider>
+		</div>
+		
+	</md-dialog-content>
+
+	<md-dialog-actions layout="row" layout-align="space-around" class="mt-20">
+		<button md-raised-button color="primary" [disabled]="!wordForm.form.valid" (click)="saveFilter()">Save</button>
+		<button md-raised-button md-dialog-close>Cancel</button>
+	</md-dialog-actions>
+</form>

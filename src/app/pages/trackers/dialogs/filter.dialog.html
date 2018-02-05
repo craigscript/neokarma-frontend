@@ -1,0 +1,16 @@
+<h2 md-dialog-title>Select Filter</h2>
+
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+		<md-nav-list dense [style.height]="'50%'">
+			<h3 md-subheader>Filters</h3>
+			<a md-list-item *ngFor="let filter of SelectableFilters" (click)="createFilter(filter)">
+				<md-icon md-list-avatar color="primary" fontIcon="{{FilterMap[filter].icon}}" class="fa-lg"></md-icon>
+				<p md-line>{{FilterMap[filter].name}}</p>
+				<p md-line>{{FilterMap[filter].description}}</p>
+			</a>
+		</md-nav-list>
+	</md-dialog-content>
+
+<md-dialog-actions>
+	<button md-raised-button [md-dialog-close]="false">Cancel</button>
+</md-dialog-actions>

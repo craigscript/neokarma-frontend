@@ -1,0 +1,18 @@
+<h2 md-dialog-title>Enter your phone number</h2>
+<form #phoneNumberForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '350px' : '100%')">
+
+		<md-input-container class="full-width">
+			<input mdInput #phoneNumberControl="ngModel" type="text" placeholder="Your phone number" [(ngModel)]="phoneNumber" name="phoneNumber" required pattern="[0-9]+">
+			<md-hint fxLayoutAlign="start">
+				<span [hidden]="phoneNumberControl.valid || phoneNumberControl.untouched" class="tc-red-600">Please enter valid phone number</span>
+			</md-hint>
+		</md-input-container>
+
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around">
+		<button md-raised-button color="primary" [disabled]="!phoneNumberForm.form.valid" (click)="submit()">Submit</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

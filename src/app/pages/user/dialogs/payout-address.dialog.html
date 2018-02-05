@@ -1,0 +1,15 @@
+<h2 md-dialog-title>Payout Address</h2>
+<form #payoutAddressForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '350px' : '100%')">
+
+		<md-input-container class="full-width">
+			<input mdInput #payoutAddressControl="ngModel" type="text" placeholder="Enter your payout address" [(ngModel)]="payoutAddress" name="payoutAddress" required>
+		</md-input-container>
+
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around">
+		<button md-raised-button color="primary" [disabled]="!payoutAddressForm.form.valid" (click)="submit()">Submit</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

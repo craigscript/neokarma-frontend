@@ -1,0 +1,17 @@
+<div class="user-form">
+	<h2>Email verification</h2>
+	<div class="pt-20">
+		<i *ngIf="loading" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+		<p *ngIf="success == true">
+			<i class="fa fa-check-circle primary mr-10"></i>
+			<strong>{{email}}</strong> is verified
+		</p>
+		<p *ngIf="success == false">
+			<i class="fa fa-times-circle red mr-10"></i>
+			<strong>{{email}}</strong> is not verified
+		</p>
+	</div>
+	<div class="pt-20">
+		<a class="link" routerLink="/auth/signup">Sign In</a>
+	</div>
+</div>

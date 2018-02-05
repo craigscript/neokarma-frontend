@@ -1,0 +1,64 @@
+<md-card>
+	<md-card-title><i class="fa fa-bell accent mr-10"></i>Mention notification setting</md-card-title>
+	<md-card-subtitle><i class="fa fa-magic accent mr-10"></i>Customize notification</md-card-subtitle>
+	<md-divider></md-divider>
+
+	<md-card-content>
+		<md-card-subtitle class="mt-20"><i class="fa fa-sliders accent mr-10"></i>Notification setting:</md-card-subtitle>
+
+		<div class="full-width pt-20" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="start center">
+			<md-select placeholder="Days of week" multiple (change)="saveSettings()">
+				<md-option *ngFor="let day of days; let i = index;" [value]="i">{{day}}</md-option>
+			</md-select>
+			<md-select placeholder="Notification Interval" (change)="saveSettings()">
+				<md-option *ngFor="let interval of intervals" [value]="interval">{{interval}}</md-option>
+			</md-select>
+			<md-select placeholder="Hours of day" multiple (change)="saveSettings()">
+				<md-option *ngFor="let hour of hours" [value]="hour">{{hour}}</md-option>
+			</md-select>
+		</div>
+
+		<div class="pt-20">
+			<md-card-subtitle class="mt-20"><i class="fa fa-arrow-right accent mr-10"></i>Notification target:</md-card-subtitle>
+
+			<md-list *ngIf="targets" class="color-icons">
+
+				<md-list-item *ngIf="targets == 0">
+					<p md-line>No targets here.</p>
+				</md-list-item>
+
+				<md-list-item *ngFor="let target of targets">
+					<md-icon *ngIf="target.type == 'email'" md-list-avatar class="md-big-avatar" fontIcon="fa-envelope"></md-icon>
+					<md-icon *ngIf="target.type == 'sms'" md-list-avatar class="md-big-avatar" fontIcon="fa-mobile"></md-icon>
+					<md-icon *ngIf="target.type == 'webhook'" md-list-avatar class="md-big-avatar" fontIcon="fa-bell"></md-icon>
+					<h3 md-line *ngIf="target.type == 'email'">{{target.options.address}}</h3>
+					<h3 md-line *ngIf="target.type == 'sms'">+{{target.options.number}}</h3>
+					<h3 md-line *ngIf="target.type == 'webhook'">{{target.options.url}}</h3>
+					<button md-raised-button
+						*ngIf="target.type == 'email' || target.type == 'webhook'"
+						class="no-shrink" color="accent"
+						(click)="testNotification(target)"
+					>Test</button>
+				</md-list-item>
+
+			</md-list>
+		</div>
+
+		<button md-raised-button color="primary" class="mt-20 text-upper" [mdMenuTriggerFor]="menu">Add new target</button>
+
+		<md-menu #menu="mdMenu" class="color-icons">
+			<button md-menu-item (click)="emailTarget()">
+				<md-icon class="fa-fw" fontIcon="fa-envelope"></md-icon>
+				Email notification
+			</button>
+			<button md-menu-item (click)="smsTarget()">
+				<md-icon class="fa-fw" fontIcon="fa-mobile"></md-icon>
+				SMS Notification
+			</button>
+			<button md-menu-item (click)="webhookTarget()">
+				<md-icon class="fa-fw" fontIcon="fa-bell"></md-icon>
+				Webhook Notification
+			</button>
+		</md-menu>
+	</md-card-content>
+</md-card>

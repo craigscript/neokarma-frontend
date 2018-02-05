@@ -1,0 +1,61 @@
+.user-form-logo {
+	font-weight: 700;
+	color: #2196f3;
+}
+
+.user-form {
+	width: 450px;
+	background-color: #fff;
+	padding: 60px;
+	border-radius: 7px;
+
+	h2 {
+		font-weight: 400;
+	}
+
+	h3 {
+		color: #666;
+		font-size: 14px;
+		margin-bottom: 20px;
+		font-weight: 300;
+	}
+
+	md-input-container {
+		width: 100%;
+		margin-top: 5px;
+	}
+
+	button {
+		width: 100%;
+		height: 45px;
+		margin-top: 20px;
+		margin-bottom: 15px;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.link {
+		display: block;
+		margin-top: 10px;
+		cursor: pointer;
+		color: #2196f3;
+		text-decoration: none;
+	}
+}
+
+.signup-form {
+	width: 600px;
+}
+
+@media screen and (max-width: 800px) {
+	.signup-form {
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.user-form {
+		width: 100%;
+		padding: 20px;
+	}
+}

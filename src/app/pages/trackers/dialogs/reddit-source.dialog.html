@@ -1,0 +1,32 @@
+<h2 md-dialog-title>Create Reddit Source</h2>
+<form #redditForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+
+		<md-input-container class="full-width">
+			<input mdInput placeholder="Name of your source" [(ngModel)]="name" name="name" required>
+		</md-input-container>
+
+		<md-input-container class="full-width">
+			<input mdInput placeholder="/r/" [(ngModel)]="target" name="subreddit" required>
+		</md-input-container>
+
+		<!--<md-autocomplete #subredditAutocomplete="mdAutocomplete" class="full-width" required>
+			<md-option *ngFor="let subreddit of ['ethereum', 'bitcoin']" [value]="subreddit">
+				{{ subreddit }}
+			</md-option>
+		</md-autocomplete>-->
+
+		
+		<md-select placeholder="Select a source data" [(ngModel)]="options.extract" name="extract" class="full-width mt-10" required>
+			<md-option *ngFor="let extract of extracts" [value]="extract.value">
+				{{ extract.name }}
+			</md-option>
+		</md-select>
+
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around" class="mt-20">
+		<button md-raised-button color="primary" [disabled]="!redditForm.form.valid" (click)="Save()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

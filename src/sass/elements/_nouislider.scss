@@ -1,0 +1,21 @@
+.ng2-nouislider {
+
+	.noUi-horizontal {
+		height: 10px;
+	}
+
+	.noUi-connect {
+		background-color: $accent;
+	}
+
+	.noUi-horizontal .noUi-handle {
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+
+		&::before,
+		&::after {
+			display: none;
+		}
+	}
+}

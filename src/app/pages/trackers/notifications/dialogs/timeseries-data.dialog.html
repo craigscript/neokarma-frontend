@@ -1,0 +1,19 @@
+<h2 md-dialog-title>Timeseries Data</h2>
+<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+	<form #timeseriesForm="ngForm">
+		<md-select class="full-width" placeholder="Start interval" [(ngModel)]="startInterval" name="startInterval">
+			<md-option *ngFor="let hour of hours" [value]="hour">{{hour}}</md-option>
+		</md-select>
+		<md-select class="full-width mt-20" placeholder="End interval" [(ngModel)]="endInterval" name="endInterval">
+			<md-option *ngFor="let hour of hours" [value]="hour">{{hour}}</md-option>
+		</md-select>
+		<md-select class="full-width mt-20" placeholder="Range" [(ngModel)]="range" name="range">
+			<md-option *ngFor="let interval of intervals" [value]="interval">{{interval}}</md-option>
+		</md-select>
+	</form>
+</md-dialog-content>
+
+<md-dialog-actions fxLayoutAlign="space-around">
+	<button md-raised-button color="primary" (click)="save()">Save</button>
+	<button md-raised-button [md-dialog-close]="false">Cancel</button>
+</md-dialog-actions>

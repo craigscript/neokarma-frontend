@@ -1,0 +1,52 @@
+<ng-template tdLoading [tdLoadingUntil]="!loadingFeed" tdLoadingStrategy="overlay" tdLoadingType="linear">
+	<div class="feeds">
+		<div class="feed" *ngFor="let mention of Mentions">
+
+			<div class="info">
+				<div class="avatar">
+					<i class="fa fa-{{mention.type || 'comments'}}"></i>
+				</div>
+				<div>
+					<p class="tracker">{{mention.name}}</p>
+					<em class="time">{{mention.date | amTimeAgo}} on {{mention.type}}</em>
+				</div>
+			</div>
+
+			<div class="feed-inner">
+				<a class="title" target="_blank" href="{{mention.url}}">{{mention.title}}</a>
+				<div class="content" *ngFor="let mentionContent of mention.content" [innerHTML]="mentionContent | wordhightlight: mention.keywords"></div>
+				<div class="sentiment">
+					<span class="sentiment-inner" *ngIf="mention.sentiment">
+						<span>Sentiment:</span>
+						<strong>Score: {{mention.sentiment.score | number: '1.2-2'}}</strong>
+						<strong>Comparative: {{mention.sentiment.comparative | number: '1.2-2'}}</strong>
+					</span>
+					<span class="negative" *ngFor="let negative of mention.sentiment.negative">{{negative}}</span>
+					<span class="positive" *ngFor="let positive of mention.sentiment.positive">{{positive}}</span>
+				</div>
+				<div class="mobile-button">
+					<a href="{{mention.url}}" target="_blank" md-raised-button color="primary" class="text-upper">Open link</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</ng-template>
+
+<div class="text-center">
+
+	<md-card-content *ngIf="loadingFeed && !NoMore">
+		<i class="fa fa-spinner fa-spin"></i>
+		Loading...
+	</md-card-content>
+
+	<md-card-content *ngIf="NoMore">
+		No items to show
+	</md-card-content>
+
+	<md-card-content *ngIf="!loadingFeed && !NoMore">
+		<button md-raised-button color="primary" class="load-more" #loadMoreBtn [disabled]="loadingFeed" (click)="loadMore()">See more</button>
+	</md-card-content>
+
+</div>

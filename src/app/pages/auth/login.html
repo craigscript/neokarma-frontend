@@ -1,0 +1,21 @@
+
+<form class="user-form" #loginForm="ngForm">
+	<h2>Sign In</h2>
+	<h3>You need to sign in to continue your request</h3>
+	<md-input-container>
+		<input mdInput #emailElement #emailControl="ngModel" placeholder="E-mail" type="email" maxlength="30" name="email" [(ngModel)]="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+		<md-hint align="end">{{emailElement.value.length}} / 30</md-hint>
+		<md-hint fxLayoutAlign="start">
+			<span [hidden]="emailControl.valid || emailControl.untouched" class="tc-red-600">Email is invalid</span>
+		</md-hint>
+	</md-input-container>
+	<md-input-container>
+		<input mdInput #passElement #passControl="ngModel" placeholder="Password" type="password" name="password" [(ngModel)]="password" required>
+	</md-input-container>
+	<div class="text-left">
+		<md-checkbox class="no-padding" color="primary" name="remember" [(ngModel)]="remember">Remember me</md-checkbox>
+	</div>
+	<button md-raised-button color="primary" [disabled]="!loginForm.form.valid" (click)="login()">Sign In</button>
+	<a class="link" routerLink="/auth/forgot-password">Forgot Password?</a>
+	<a class="link" routerLink="/auth/signup">Sign Up</a>
+</form>

@@ -1,0 +1,79 @@
+<md-card>
+	<md-card-title><i class="fa fa-crosshairs accent mr-10"></i>Tracker Wizard</md-card-title>
+	<md-card-subtitle><i class="fa fa-magic accent mr-10"></i>Customize your tracker</md-card-subtitle>
+	<md-divider></md-divider>
+	<td-steps [mode]="(media.query('gt-sm') ? 'horizontal' : 'vertical')">
+
+		<td-step #step1 active="true" label="Conditions" sublabel="When all conditions meet the required criteria we will send a notification based on the settings defined here.">
+
+			<md-card-subtitle>
+				<md-icon color="accent" md-list-avatar fontIcon="fa-code"></md-icon>
+				We'll send notifications when all rules are <strong>true</strong>
+			</md-card-subtitle>
+
+			<md-divider></md-divider>
+
+			<!-- Custom rule display -->
+			<div *ngFor="let rule of tracker.rules; let ruleIndex = index;">
+				<notification-rule-component [ruleComponent]="rule.method" [ruleOptions]="rule.options" (delete)="deleteRule(ruleIndex)"></notification-rule-component>
+			</div>
+
+			<div class="mt-20" *ngIf="tracker.rules.length === 0">
+				No rules here.
+			</div>
+
+			<ng-template td-step-actions>
+				<button md-raised-button color="accent" (click)="addRule()" class="text-upper">Add Condition</button>
+				<button md-raised-button color="primary" (click)="saveNotificationTracker(); step2.active=true" class="text-upper ml-10">Save Conditions</button>
+			</ng-template>
+		</td-step>
+
+		<td-step #step2 label="Time Settings / Interval" sublabel="Define when do you wish to receive the notifications">
+			<div class="mb-10" fxLayout="row" fxLayoutAlign="space-between center">
+				<md-card-subtitle>
+					<md-icon color="accent" md-list-avatar fontIcon="fa-bell"></md-icon>When do you wish to receive notifications?
+				</md-card-subtitle>
+				<md-select placeholder="Time zone" [(ngModel)]="userTimezone">
+					<md-option *ngFor="let timezone of timezones" [value]="timezone">{{timezone}}</md-option>
+				</md-select>
+			</div>
+
+			<div fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+				<md-select fxFlex [class.full-width]="media.query('xs')" placeholder="Notification Interval" [(ngModel)]="tracker.triggerOptions.interval">
+					<md-option *ngFor="let interval of intervals" [value]="interval">{{interval}}</md-option>
+				</md-select>
+				<md-select fxFlex [class.full-width]="media.query('xs')" placeholder="Days of week" [(ngModel)]="tracker.triggerOptions.days" multiple>
+					<md-option *ngFor="let day of days; let i = index;" [value]="i">{{day}}</md-option>
+				</md-select>
+				<md-select fxFlex [class.full-width]="media.query('xs')" placeholder="Hours of day" [(ngModel)]="tracker.triggerOptions.hours" multiple>
+					<md-option *ngFor="let hour of hours" [value]="hour">{{hour}}</md-option>
+				</md-select>
+			</div>
+
+			<ng-template td-step-actions>
+				<button md-raised-button color="primary" (click)="saveNotificationTracker(); step2.active=true" class="text-upper">Save Notification Settings</button>
+			</ng-template>
+
+		</td-step>
+
+		<td-step #step3 label="Notification Targets" sublabel="How do you want to receive notifications?">
+
+			<md-card-subtitle>
+				<md-icon color="accent" md-list-avatar fontIcon="fa-bell"></md-icon>We'll send notifications to
+			</md-card-subtitle>
+
+			<!-- Custom target display -->
+			<div *ngFor="let target of tracker.targets; let targetIndex = index;">
+				<notification-target-component [targetComponent]="target.type" [targetOptions]="target.options" (delete)="deleteTarget(targetIndex)"></notification-target-component>
+			</div>
+
+			<md-divider></md-divider>
+
+			<ng-template td-step-actions>
+				<button md-raised-button color="accent" (click)="addTarget()" class="text-upper">Add Target</button>
+				<button md-raised-button color="primary" (click)="saveNotificationTracker();" class="text-upper ml-10">Save</button>
+			</ng-template>
+		</td-step>
+
+	</td-steps>
+</md-card>

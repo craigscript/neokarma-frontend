@@ -1,0 +1,10 @@
+<ng-template tdLoading [tdLoadingUntil]="!loadingMarkets" tdLoadingStrategy="overlay" tdLoadingType="linear">
+
+	<!-- List View -->
+	<div>
+		Showing graphs from http://default-environment.ybq5a73yz3.us-east-2.elasticbeanstalk.com
+		<md-simplechart class="server-load-chart" type="barline" [speed]="1" [data]="GraphData"></md-simplechart>
+	</div>
+
+
+</ng-template>

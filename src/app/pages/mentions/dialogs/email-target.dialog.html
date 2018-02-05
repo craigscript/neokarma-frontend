@@ -1,0 +1,13 @@
+<h2 md-dialog-title>Add Email Notification</h2>
+<form #emailForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '350px' : '100%')">
+		<md-input-container class="full-width">
+			<input mdInput type="text" placeholder="Enter email address" [(ngModel)]="email" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+		</md-input-container>
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around">
+		<button md-raised-button color="primary" [disabled]="!emailForm.form.valid" (click)="save()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

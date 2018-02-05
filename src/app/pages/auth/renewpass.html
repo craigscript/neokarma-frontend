@@ -1,0 +1,18 @@
+<form class="user-form" #renewForm="ngForm">
+	<h2>Recover your password</h2>
+	<h3>Enter your new password</h3>
+	<md-input-container>
+		<input mdInput #newpassElement #newpassControl="ngModel" placeholder="Password" type="password" minlength="8" name="newpassword" [(ngModel)]="newPassword" required>
+		<md-hint fxLayoutAlign="start">
+			<span [hidden]="newpassControl.valid || newpassControl.untouched" class="tc-red-600">Minimum password length 8 characters</span>
+		</md-hint>
+	</md-input-container>
+	<md-input-container>
+		<input mdInput #confirmpassElement placeholder="Confirm Password" type="password" required>
+		<md-hint fxLayoutAlign="start">
+			<span [hidden]="newpassElement.value == confirmpassElement.value" class="tc-red-600">Password mismatch</span>
+		</md-hint>
+	</md-input-container>
+	<re-captcha #captchaRef="reCaptcha" *ngIf="captchaRequired" (resolved)="captchaResolved($event)" [siteKey]="captchaSiteKey"></re-captcha>
+	<button md-raised-button color="primary" [disabled]="!renewForm.form.valid || newpassElement.value != confirmpassElement.value || (this.captchaRequired && !this.captchaSolution)" (click)="renewPass()">Send</button>
+</form>

@@ -1,0 +1,189 @@
+<div class="md-content">
+	<div flex-gt-xs="100">
+		<md-card>
+			<md-card-title><i class="fa fa-crosshairs accent mr-10"></i>Tracker Wizard</md-card-title>
+			<md-card-subtitle><i class="fa fa-magic accent mr-10"></i>Customize your tracker</md-card-subtitle>
+			<md-divider></md-divider>
+			<ng-template tdLoading [tdLoadingUntil]="!loadingTracker" tdLoadingStrategy="overlay" tdLoadingType="linear">
+
+				<td-steps [mode]="(media.query('gt-sm')? 'horizontal' : 'vertical')">
+					<td-step #sourceStep label="Sources" sublabel="Add your input sources here" [active]="true">
+
+						<div fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="start end" fxLayoutGap="15px">
+							<div fxFlex.gt-xs="25%" class="text-center">
+								<md-card-subtitle class="no-padding">Number of sources Reddit</md-card-subtitle>
+								<div class="text-light-small mb-10">1/10</div>
+								<md-progress-bar [value]="(1 * 100) / 10"></md-progress-bar>
+							</div>
+
+							<div fxFlex.gt-xs="25%" class="text-center">
+								<md-card-subtitle class="no-padding">Number of sources Twitter</md-card-subtitle>
+								<div class="text-light-small mb-10">3/10</div>
+								<md-progress-bar [value]="(3 * 100) / 10"></md-progress-bar>
+							</div>
+
+							<div fxFlex.gt-xs="25%" class="text-center">
+								<md-card-subtitle class="no-padding">Number of sources Market</md-card-subtitle>
+								<div class="text-light-small mb-10">10/10</div>
+								<md-progress-bar [value]="(10 * 100) / 10"></md-progress-bar>
+							</div>
+
+							<div fxFlex.gt-xs="25%" class="text-center">
+								<md-card-subtitle class="no-padding">Number of sources Mention</md-card-subtitle>
+								<div class="text-light-small mb-10">5/10</div>
+								<md-progress-bar [value]="(5 * 100) / 10"></md-progress-bar>
+							</div>
+						</div>
+
+						<md-divider class="mt-20"></md-divider>
+
+						<md-nav-list>
+							<h3 md-subheader><md-icon color="accent" md-list-avatar fontIcon="fa-database"></md-icon>Sources</h3>
+							<md-list-item *ngIf="Tracker.sources.length==0">
+								<p md-line>No sources yet.</p>
+							</md-list-item>
+
+							<div layout="row" layout-align="space-between center" *ngFor="let source of Tracker.sources">
+								<md-list-item class="flex-grow" routerLink="/app/trackers/source/edit/{{Tracker._id}}/{{source._id}}">
+									<md-icon md-list-avatar class="md-big-avatar" *ngIf="source.type=='reddit'" fontIcon="fa-reddit"></md-icon>
+									<md-icon md-list-avatar class="md-big-avatar" *ngIf="source.type=='market'" fontIcon="fa-exchange"></md-icon>
+									<md-icon md-list-avatar class="md-big-avatar" *ngIf="source.type=='twitter'" fontIcon="fa-twitter"></md-icon>
+									<md-icon md-list-avatar class="md-big-avatar" *ngIf="source.type=='mention'" fontIcon="fa-comments"></md-icon>
+									<h3 md-line>{{source.name}}</h3>
+									<p md-line>{{source.type}}</p>
+								</md-list-item>
+
+								<div class="no-shrink">
+									<md-icon class="vertical-menu ml-10" [mdMenuTriggerFor]="menu" fontIcon="fa-ellipsis-v"></md-icon>
+									<md-menu #menu="mdMenu" class="color-icons">
+										<button md-menu-item (click)="editSource(source)">
+											<md-icon fontIcon="fa-pencil-square-o"></md-icon>
+											Edit Source
+										</button>
+										<button color="primary" routerLink="/app/trackers/source/edit/{{Tracker._id}}/{{source._id}}" routerLinkActive="active" md-menu-item>
+											<md-icon fontIcon="fa-cogs"></md-icon>
+											Filters & Actions
+										</button>
+										<button md-menu-item (click)="deleteSource(source)">
+											<md-icon class="tc-red-400" fontIcon="fa-trash"></md-icon>
+											Delete
+										</button>
+									</md-menu>
+								</div>
+							</div>
+
+						</md-nav-list>
+
+						<button md-raised-button color="primary" class="text-upper mt-20" [mdMenuTriggerFor]="createMenu">Add Source</button>
+						<md-menu #createMenu="mdMenu" class="color-icons">
+							<button color="primary" md-menu-item (click)="addSource('reddit')">
+								<md-icon fontIcon="fa-reddit"></md-icon>
+								Reddit Source
+							</button>
+							<button color="warn" md-menu-item (click)="addSource('twitter')">
+								<md-icon fontIcon="fa-twitter"></md-icon>
+								Twitter Source
+							</button>
+							<button color="warn" md-menu-item (click)="addSource('market')">
+								<md-icon fontIcon="fa-exchange"></md-icon>
+								Market Source
+							</button>
+							<button color="warn" md-menu-item (click)="addSource('mention')">
+								<md-icon fontIcon="fa-comments"></md-icon>
+								Mention Source
+							</button>
+						</md-menu>
+
+					</td-step>
+
+					<td-step #exportsStep label="Time Series Data" sublabel="Select what data do you wish to select from the sources and how do you wish to compare your sources against each other.">
+
+						<div class="text-center">
+							<md-card-subtitle class="no-padding">Number of Exports</md-card-subtitle>
+							<div class="text-light-small mb-10">1/10</div>
+							<md-progress-bar [value]="(1 * 100) / 10"></md-progress-bar>
+						</div>
+
+						<md-divider class="mt-20"></md-divider>
+
+						<md-nav-list>
+							<h3 md-subheader><md-icon color="accent" md-list-avatar fontIcon="fa-random"></md-icon>Export data</h3>
+							<md-list-item *ngIf="Tracker.exporters.length == 0">
+								<md-icon color="primary" md-list-icon fontIcon="fa-random"></md-icon>
+								<h4 md-line>Default Export</h4>
+								<p md-line>Default export (No export rules specified)</p>
+							</md-list-item>
+
+							<a md-list-item *ngFor="let exporter of Tracker.exporters"(click)="editExporter(exporter)">
+								<md-icon color="primary" md-list-avatar fontIcon="{{ExporterDialogMap[exporter.name].icon}}" class="fa-lg"></md-icon>
+								<p md-line>{{ExporterDialogMap[exporter.name].name}}</p>
+								<p md-line>{{ExporterDialogMap[exporter.name].description}}</p>
+								<button md-raised-button color="warn" (click)="removeExporter(exporter);" class="text-upper">Remove</button>
+							</a>
+						</md-nav-list>
+
+						<ng-template td-step-actions>
+							<button md-raised-button color="accent" (click)="addExporter()" class="text-upper">Add Rule</button>
+							<button md-raised-button color="primary" (click)="saveExporters()" class="text-upper ml-10">Save Rules</button>
+						</ng-template>
+
+					</td-step>
+
+					<td-step #finalStep label="Analyze" sublabel="Analyze the results of your tracker">
+						<ng-template td-step-actions>
+							<button md-raised-button color="accent" (click)="refreshChart()" class="text-upper">Refresh</button>
+							<button md-raised-button color="primary" (click)="saveTracker()" class="text-upper ml-10">Save Tracker</button>
+						</ng-template>
+					</td-step>
+
+				</td-steps>
+			</ng-template>
+
+			<md-divider></md-divider>
+
+			<div class="md-padding filters-container" layout="row" layout-align="space-around end" layout-wrap>
+				<md-select placeholder="Zoom" [class]="(media.query('xs') ? 'full-width mt-20' : '')">
+					<md-option (click)="SetDataInterval(60*5)" value="5 minutes">5 minutes</md-option>
+					<md-option (click)="SetDataInterval(60*15)" value="15 minutes">15 minutes</md-option>
+					<md-option (click)="SetDataInterval(60*30)" value="30 minutes">30 minutes</md-option>
+					<md-option (click)="SetDataInterval(60*60*2)" value="2 hours">2 hours</md-option>
+					<md-option (click)="SetDataInterval(60*60*4)" value="4 hours">4 hours</md-option>
+					<md-option (click)="SetDataInterval(60*60*24)" value="24 hours">24 hours</md-option>
+				</md-select>
+				<md-checkbox color="primary" style="padding-right: 0;" (change)="toggleStack()">Collapse</md-checkbox>
+				<md-checkbox color="primary" (change)="toggleNormalize()">Normalize</md-checkbox>
+
+				<!-- Date Picker Start -->
+				<md-input-container class="date-picker" [class]="(media.query('xs') ? '' : 'mr-10')">
+					<input mdInput [mdDatepicker]="startDate" placeholder="Date Range Start">
+					<md-datepicker-toggle mdSuffix [for]="startDate"></md-datepicker-toggle>
+				</md-input-container>
+				<md-datepicker [touchUi]="(media.query('gt-xs') ? false : true)" #startDate [startAt]="StartDate" (selectedChanged)="startDateChanged($event)"></md-datepicker>
+
+				<!-- Date Picker End -->
+				<md-input-container class="date-picker">
+					<input mdInput [mdDatepicker]="endDate" placeholder="Date Range End">
+					<md-datepicker-toggle mdSuffix [for]="endDate"></md-datepicker-toggle>
+				</md-input-container>
+				<md-datepicker [touchUi]="(media.query('gt-xs') ? false : true)" #endDate [startAt]="EndDate" (selectedChanged)="endDateChanged($event)"></md-datepicker>
+
+				<md-select placeholder="Time zone" [(ngModel)]="userTimezone">
+					<md-option *ngFor="let timezone of timezones" [value]="timezone">{{timezone}}</md-option>
+				</md-select>
+			</div>
+
+			<md-divider></md-divider>
+
+			<ng-template tdLoading [tdLoadingUntil]="!loadingChart" tdLoadingStrategy="overlay" tdLoadingType="linear">
+				<div class="md-padding">
+					<md-chart #TrackerChart style="width:100%;"
+					[datasets]="ChartData"
+					[labels]="ChartLabels"
+					[options]="ChartOptions"
+					[chartType]="ChartType"></md-chart>
+				</div>
+			</ng-template>
+
+		</md-card>
+	</div>
+</div>

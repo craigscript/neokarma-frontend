@@ -1,0 +1,42 @@
+<form class="user-form signup-form" #signUpForm="ngForm">
+	<h2>Sign Up</h2>
+	<h3>Create your neokarma account</h3>
+	<div fxLayout="row" fxLayoutAlign="space-around" fxLayoutGap="20px">
+		<md-input-container>
+			<input mdInput #firstnameControl="ngModel" placeholder="First name" type="text" name="firstname" [(ngModel)]="firstname" required>
+			<md-hint fxLayoutAlign="start">
+				<span [hidden]="firstnameControl.valid || firstnameControl.untouched" class="tc-red-600">Required</span>
+			</md-hint>
+		</md-input-container>
+		<md-input-container>
+			<input mdInput #lastnameControl="ngModel" placeholder="Last name" type="text" name="lastname" [(ngModel)]="lastname" required>
+			<md-hint fxLayoutAlign="start">
+				<span [hidden]="lastnameControl.valid || lastnameControl.untouched" class="tc-red-600">Required</span>
+			</md-hint>
+		</md-input-container>
+	</div>
+	<md-input-container>
+		<input mdInput #emailElement #emailControl="ngModel" placeholder="E-mail" type="email" maxlength="30" name="email" [(ngModel)]="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+		<md-hint align="end">{{emailElement.value.length}} / 30</md-hint>
+		<md-hint fxLayoutAlign="start">
+			<span [hidden]="emailControl.valid || emailControl.untouched" class="tc-red-600">Email is invalid</span>
+		</md-hint>
+	</md-input-container>
+	<md-input-container>
+		<input mdInput #passwordElement #passwordControl="ngModel" placeholder="Password" type="password" minlength="8" name="password" [(ngModel)]="password" required>
+		<md-hint fxLayoutAlign="start">
+			<span [hidden]="passwordControl.valid || passwordControl.untouched" class="tc-red-600">Minimum password length 8 characters</span>
+		</md-hint>
+	</md-input-container>
+	<md-input-container>
+		<input mdInput #confirmpassElement placeholder="Confirm Password" type="password" required>
+		<md-hint fxLayoutAlign="start">
+			<span [hidden]="passwordElement.value == confirmpassElement.value" class="tc-red-600">Password mismatch</span>
+		</md-hint>
+	</md-input-container>
+	<div class="mt-10">
+		<re-captcha #captchaRef="reCaptcha" *ngIf="captchaRequired" (resolved)="captchaResolved($event)" [siteKey]="captchaSiteKey"></re-captcha>
+	</div>
+	<button md-raised-button color="primary" [disabled]="!signUpForm.form.valid || (this.captchaRequired && !this.captchaSolution)" (click)="signUp()">Sign Up</button>
+	<a class="link" routerLink="/auth/login">Sign In</a>
+</form>

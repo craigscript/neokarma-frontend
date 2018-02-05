@@ -1,0 +1,28 @@
+<h2 md-dialog-title>Create Market Update for {{Market.name}}</h2>
+<form #twitterForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+
+		<!--<md-input-container class="full-width">
+			<input mdInput placeholder="Name of your alert" [(ngModel)]="Name" name="name">
+		</md-input-container>-->
+
+		<md-select placeholder="Select an Index" [(ngModel)]="PriceKey" name="PriceKeys" class="full-width mt-10" required>
+			<md-option *ngFor="let pricekey of PriceKeys" [value]="pricekey.value">
+				{{ pricekey.name }}
+			</md-option>
+		</md-select>
+
+		<md-select placeholder="How often do you want to receive updates?" [(ngModel)]="UpdateFrequency" name="UpdateFrequency" class="full-width mt-10" required>
+			<md-option *ngFor="let updatefrequency of UpdateFrequencies" [value]="updatefrequency.value">
+				{{ updatefrequency.name }}
+			</md-option>
+		</md-select>
+		<br /><br />
+	
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around" class="mt-20">
+		<button md-raised-button color="primary" [disabled]="!twitterForm.form.valid" (click)="Save()">Set Alert</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

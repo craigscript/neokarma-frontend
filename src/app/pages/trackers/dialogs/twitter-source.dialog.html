@@ -1,0 +1,31 @@
+<h2 md-dialog-title>Create Twitter Source</h2>
+<form #twitterForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+
+		<md-input-container class="full-width">
+			<input mdInput placeholder="Name of your source" [(ngModel)]="name" name="name" required>
+		</md-input-container>
+
+		<md-input-container class="full-width">
+			<input mdInput placeholder="Topic" [formControl]="topicCtrl" [(ngModel)]="target" name="topic" required [mdAutocomplete]="topicSelector">
+
+			<md-autocomplete #topicSelector="mdAutocomplete">
+				<md-option *ngFor="let topic of filteredTopics" [value]="topic">
+					{{ topic }}
+				</md-option>
+			</md-autocomplete>
+		</md-input-container>
+
+		<md-select placeholder="Select a source data" [(ngModel)]="options.extract" name="extract" class="full-width mt-10" required>
+			<md-option *ngFor="let extract of extracts" [value]="extract.value">
+				{{ extract.name }}
+			</md-option>
+		</md-select>
+
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around" class="mt-20">
+		<button md-raised-button color="primary" [disabled]="!twitterForm.form.valid" (click)="Save()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

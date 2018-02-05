@@ -1,0 +1,70 @@
+<md-card>
+	<ng-template tdLoading [tdLoadingUntil]="!loadingPlan" tdLoadingStrategy="overlay" tdLoadingType="linear">
+		<md-card-title>Pay with Cryptocurrency</md-card-title>
+		<md-divider></md-divider>
+		<div class="selection-plan-inner" layout="row" layout-align="center start" layout-wrap>
+			<div class="plan payment" flex-gt-md>
+				<h2 class="plan-name">{{paymentPlan.name}}</h2>
+				<h3 class="plan-price">{{paymentPlan.price}} {{paymentPlan.currency}}</h3>
+				<p class="plan-info">{{paymentPlan.description}}</p>
+				<ul class="feature-list">
+					<li *ngFor="let feature of paymentPlan.features" [class.feature-disable]="!feature.enabled">
+						<i *ngIf="feature.enabled" class="fa fa-check-circle"></i>
+						{{feature.label}}
+					</li>
+				</ul>
+			</div>
+		</div>
+	</ng-template>
+
+	<md-divider *ngIf="paymentDetails"></md-divider>
+
+	<div layout-gt-xs="row" *ngIf="paymentDetails">
+
+		<div flex>
+			<ng-template tdLoading [tdLoadingUntil]="!loadingPayment" tdLoadingStrategy="overlay" tdLoadingType="linear">
+				<table td-data-table>
+					<th td-data-table-column>Payment Details</th>
+					<th td-data-table-column></th>
+					<tr td-data-table-row>
+						<td td-data-table-cell>Plan:</td>
+						<td td-data-table-cell>{{paymentDetails.name}}</td>
+					</tr>
+					<tr td-data-table-row>
+						<td td-data-table-cell>Status:</td>
+						<td td-data-table-cell>
+							<strong>{{paymentDetails.status}}</strong>
+						</td>
+					</tr>
+					<tr td-data-table-row>
+						<td td-data-table-cell>Expires:</td>
+						<td td-data-table-cell>{{paymentDetails.expires | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+					</tr>
+					<tr td-data-table-row>
+						<td td-data-table-cell>Pay amount:</td>
+						<td td-data-table-cell>
+							<strong><span class="user-select-all">{{TransactionInfo.amount}}</span> {{Currency}}</strong>
+						</td>
+					</tr>
+				</table>
+			</ng-template>
+		</div>
+
+		<div flex class="text-center">
+			<p class="mt-20">Deposit Address:</p>
+			<div class="form-elements">
+				<input class="deposit-address" type="text" disabled value="{{TransactionInfo.address}}">
+			</div>
+			<img src="{{TransactionInfo.qrcode_url}}" />
+			<a class="block md-padding" target="_blank" href="{{TransactionInfo.status_url}}">Payment Status</a>
+			<p>Please allow up to 1-2 hours to confirm the payment.</p>
+		</div>
+
+	</div>
+
+	<md-divider></md-divider>
+
+	<md-card-actions *ngIf="!paymentDetails">
+		<button md-raised-button color="accent" class="text-upper" (click)="createPayment()">Create New Payment Address</button>
+	</md-card-actions>
+</md-card>

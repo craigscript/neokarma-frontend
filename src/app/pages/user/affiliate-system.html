@@ -1,0 +1,61 @@
+<md-card>
+	<md-card-title>Affiliate System</md-card-title>
+	<md-card-subtitle>About the Affiliate System</md-card-subtitle>
+	<md-divider></md-divider>
+	<md-card-content>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni, ad, soluta fuga enim ullam expedita dicta nulla dolor repudiandae quasi sint quae quia nesciunt harum laborum aut quis. Mollitia, impedit.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit blanditiis cupiditate totam at earum itaque iusto cumque, fuga veniam eveniet.</p>
+	</md-card-content>
+</md-card>
+
+<md-card>
+	<md-card-title>Your Affiliates</md-card-title>
+	<md-divider></md-divider>
+	<md-card-content>
+		<div style="overflow-x: auto;">
+			<table td-data-table>
+				<th td-data-table-column *ngFor="let column of ['ID', 'Name', 'Username', 'Paid Earnings', 'Status']">
+					{{column}}
+				</th>
+				<tr td-data-table-row *ngFor="let affiliate of affiliates">
+					<td td-data-table-cell>{{affiliate.id}}</td>
+					<td td-data-table-cell>{{affiliate.name}}</td>
+					<td td-data-table-cell>{{affiliate.username}}</td>
+					<td td-data-table-cell class="earnings">{{affiliate.paid}}</td>
+					<td td-data-table-cell>{{affiliate.status}}</td>
+				</tr>
+			</table>
+		</div>
+	</md-card-content>
+</md-card>
+
+<md-card>
+	<md-card-title>Affiliate urls & banners</md-card-title>
+	<md-divider></md-divider>
+	<md-card-content>
+		<div fxLayout="column" fxLayout.gt-sm="row">
+			<div fxFlex.gt-sm="50%">
+				<md-card-subtitle>Affiliate urls:</md-card-subtitle>
+				<div class="form-elements">
+					<input class="deposit-address" type="text" disabled value="https://neokarma.com/lsdlfselfs">
+					<input class="deposit-address" type="text" disabled value="https://neokarma.com/fsdasnkwxo">
+					<input class="deposit-address" type="text" disabled value="https://neokarma.com/dkckrnxets">
+				</div>
+			</div>
+			<div fxFlex.gt-sm="50%">
+				<md-card-subtitle>Affiliate banners:</md-card-subtitle>
+			</div>
+		</div>
+	</md-card-content>
+</md-card>
+
+<md-card>
+	<md-card-title>Payout addresses</md-card-title>
+	<md-card-content>
+		<md-card-subtitle>Your Bitcoin payout addresses:</md-card-subtitle>
+		<div class="form-elements payout" fxLayout="row">
+			<input class="deposit-address" type="text" disabled value="1BvBMYEYwrWetqTFn5Au4m4GFg7xJaNVN2">
+			<button md-button class="payout-btn" (click)="changeAddress()"><i class="fa fa-pencil-square-o"></i></button>
+		</div>
+	</md-card-content>
+</md-card>

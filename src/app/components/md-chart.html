@@ -1,0 +1,10 @@
+<div class="chart-container" [class.fullscreen]="ChartIsFullScreen">
+	<div layout="row" class="md-padding">
+		<span flex></span>
+		<button md-button (click)="toggleFullScreen()">
+			<md-icon class="icon tc-indigo-700" *ngIf="!ChartIsFullScreen" fontIcon="fa-expand"></md-icon>
+			<md-icon class="icon tc-indigo-700" *ngIf="ChartIsFullScreen" fontIcon="fa-compress"></md-icon>
+		</button>
+	</div>
+	<canvas #chartCanvas>Loading chart..</canvas>
+</div>

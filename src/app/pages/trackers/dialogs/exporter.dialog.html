@@ -1,0 +1,15 @@
+<h2 md-dialog-title>Select Export Rule</h2>
+<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+	<md-nav-list dense [style.height]="'50%'" class="color-icons">
+		<h3 md-subheader>Rules</h3>
+		<a md-list-item *ngFor="let Exporter of SelectableExporters" (click)="createExporter(Exporter)">
+			<md-icon md-list-avatar fontIcon="{{ExporterMap[Exporter].icon}}" class="fa-lg"></md-icon>
+			<p md-line>{{ExporterMap[Exporter].name}}</p>
+			<p md-line>{{ExporterMap[Exporter].description}}</p>
+		</a>
+	</md-nav-list>
+</md-dialog-content>
+
+<md-dialog-actions class="mt-20">
+	<button md-raised-button [md-dialog-close]="false">Cancel</button>
+</md-dialog-actions>

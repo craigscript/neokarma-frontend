@@ -1,0 +1,10 @@
+<md-card>
+	<div fxLayout="row" fxLayoutAlign="space-between center">
+		<md-card-title><i class="fa fa-bell accent mr-10"></i>My Alerts</md-card-title>
+		<button md-button class="config-btn" (click)="createAlert()">
+			<i class="fa fa-plus"></i>
+		</button>
+	</div>
+
+	<market-alert-listing #alertsListing></market-alert-listing>
+</md-card>

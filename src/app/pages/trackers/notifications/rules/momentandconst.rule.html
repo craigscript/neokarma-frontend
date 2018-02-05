@@ -1,0 +1,25 @@
+<div fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+	<md-select fxFlex [class.full-width]="media.query('xs')" class="no-padding" placeholder="Select tracker" [(ngModel)]="ruleOptions.moment.tracker">
+		<md-option *ngFor="let tracker of Trackers" [value]="tracker._id">{{tracker.name}}</md-option>
+	</md-select>
+	<md-select fxFlex [class.full-width]="media.query('xs')" class="no-padding" placeholder="Tracker Time" [(ngModel)]="ruleOptions.moment.time" name="moment-time">
+		<md-option value="300">Now</md-option>
+		<md-option value="3600">1 Hour Ago</md-option>
+		<md-option value="7200">2 Hours Ago</md-option>
+		<md-option value="86400">1 Day Ago</md-option>
+		<md-option value="172800">2 Days Ago</md-option>
+		<md-option value="604800">1 Week Ago</md-option>
+		<md-option value="1209600">2 Weeks Ago</md-option>
+	</md-select>
+	<md-select fxFlex [class.full-width]="media.query('xs')" class="no-padding" placeholder="Range" [(ngModel)]="ruleOptions.moment.range" name="moment-range">
+		<md-option value="300">5 Minute Total</md-option>
+		<md-option value="3600">1 Hour Total</md-option>
+		<md-option value="7200">2 Hour Total</md-option>
+		<md-option value="21600">6 Hour Total</md-option>
+		<md-option value="86400">24 Hour Total</md-option>
+		<md-option value="172800">48 Hour Total</md-option>
+	</md-select>
+	<md-input-container fxFlex [class.full-width]="media.query('xs')">
+		<input mdInput placeholder="Greater than (NUMBER)" name="greaterThan" [(ngModel)]="ruleOptions.greaterThan" required>
+	</md-input-container>
+</div>

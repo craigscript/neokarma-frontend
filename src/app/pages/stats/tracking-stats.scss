@@ -1,0 +1,33 @@
+.stats-table {
+	width:100%;
+	border-collapse: collapse;
+	
+}
+
+.scroll-table
+{
+	overflow-y:scroll;
+	max-height:500px;
+}
+
+.stats-table th {
+	text-align:left;
+}
+
+.stats-table td, th {
+	padding:10px;
+	margin:10px;
+	border-bottom:1px solid #afafaf
+}
+
+.trackertype-reddit {
+	background:#FFdeaa;
+}
+
+.trackertype-mention {
+	background:#efe;
+}
+
+.tracker-entry.late {
+	background:#ffaaaa;
+}

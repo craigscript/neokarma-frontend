@@ -1,0 +1,228 @@
+<div class="md-content">
+	<div layout="row" layout-xs="column">
+		<md-card flex-gt-sm="80">
+			<md-card-title><i class="fa fa-line-chart accent mr-10"></i>Monitor Trackers</md-card-title>
+			<md-card-subtitle>Analyze your trackers</md-card-subtitle>
+			<md-divider></md-divider>
+
+			<div class="md-padding filters-container" layout="row" layout-align="space-around end" layout-wrap>
+				<md-select [class]="(media.query('xs') ? 'full-width mt-20' : '')" placeholder="Zoom">
+					<md-option (click)="SetStepSize(60)" value="1 minutes">1 minutes</md-option>
+					<md-option (click)="SetStepSize(60*5)" value="5 minutes">5 minutes</md-option>
+					<md-option (click)="SetStepSize(60*10)" value="10 minutes">10 minutes</md-option>
+					<md-option (click)="SetStepSize(60*15)" value="15 minutes">15 minutes</md-option>
+					<md-option (click)="SetStepSize(60*30)" value="30 minutes">30 minutes</md-option>
+					<md-option (click)="SetStepSize(60*60)" value="1 hour">1 hour</md-option>
+					<md-option (click)="SetStepSize(60*60*2)" value="2 hours">2 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*3)" value="3 hours">3 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*6)" value="6 hours">6 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*12)" value="12 hours">12 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*24)" value="24 hours">24 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*48)" value="48 hours">48 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*72)" value="72 hours">72 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*96)" value="4 days">4 days</md-option>
+					<md-option (click)="SetStepSize(60*60*24*7)" value="1 week">1 week</md-option>
+					<md-option (click)="SetStepSize(60*60*24*7*2)" value="2 weeks">2 weeks</md-option>
+					<md-option (click)="SetStepSize(60*60*24*7*3)" value="3 weeks">3 weeks</md-option>
+					<md-option (click)="SetStepSize(60*60*24*31)" value="1 month">1 month</md-option>
+				</md-select>
+				<md-checkbox color="primary" style="padding-right: 0;" (change)="toggleStack()">Collapse</md-checkbox>
+				<md-checkbox color="primary" (change)="toggleNormalize()">Normalize</md-checkbox>
+
+				<!-- Date Picker Start -->
+				<md-input-container class="date-picker">
+					<input mdInput [mdDatepicker]="startDate" placeholder="Date Range Start">
+					<md-datepicker-toggle mdSuffix [for]="startDate"></md-datepicker-toggle>
+				</md-input-container>
+				<md-datepicker [touchUi]="(media.query('gt-xs') ? false : true)" #startDate [startAt]="StartDate" (selectedChanged)="startDateChanged($event)"></md-datepicker>
+
+				<!-- Date Picker End -->
+				<md-input-container class="date-picker">
+					<input mdInput [mdDatepicker]="endDate" placeholder="Date Range End">
+					<md-datepicker-toggle mdSuffix [for]="endDate"></md-datepicker-toggle>
+				</md-input-container>
+				<md-datepicker [touchUi]="(media.query('gt-xs') ? false : true)" #endDate [startAt]="EndDate" (selectedChanged)="endDateChanged($event)"></md-datepicker>
+
+				<md-select placeholder="Time zone" [(ngModel)]="userTimezone">
+					<md-option *ngFor="let timezone of timezones" [value]="timezone">{{timezone}}</md-option>
+				</md-select>
+			</div>
+
+			<md-divider></md-divider>
+
+			<ng-template tdLoading [tdLoadingUntil]="!loadingChart" tdLoadingStrategy="overlay" tdLoadingType="linear">
+				<div class="md-padding">
+					<md-chart #TrackerChart style="width:100%;"
+					[datasets]="ChartData"
+					[labels]="ChartLabels"
+					[options]="ChartOptions"
+					[chartType]="ChartType"
+					(chartClick)="loadChartData($event)"></md-chart>
+				</div>
+			</ng-template>
+
+		</md-card>
+
+		<md-card flex-gt-sm="20">
+			<md-card-title><i class="fa fa-list accent mr-10"></i>Overview</md-card-title>
+			<md-card-subtitle>Overlay charts</md-card-subtitle>
+			<md-divider></md-divider>
+
+			<md-nav-list flex dense>
+				<h3 md-subheader>Charts</h3>
+				<md-divider></md-divider>
+				<ng-container *ngFor="let chart of Charts;let i = index">
+					<a md-list-item [style.background-color]="(chart.hidden?'rgba(0, 0, 0, 0.1)':TrackerChart.getChartColor(chart.index))" (click)="toggleChart(chart)">
+						<md-icon md-list-avatar *ngIf="chart.loading" fontIcon="fa-spinner" class="fa-spin fa-fw fa-2x"></md-icon>
+						<md-icon md-list-avatar *ngIf="!chart.loading && !chart.hidden" fontIcon="fa-check-square" class="fa-2x"></md-icon>
+						<md-icon md-list-avatar *ngIf="!chart.loading && chart.hidden" fontIcon="fa-square" class="fa-2x"></md-icon>
+						<p md-line>{{chart.name}}</p>
+						<!--<p md-line>{{chart.hidden?'Hidden':'Active'}}</p>-->
+					</a>
+					<md-divider></md-divider>
+				</ng-container>
+			</md-nav-list>
+
+		</md-card>
+	</div>
+
+	<div layout="row" layout-xs="column" class="monitor-row" layout-wrap>
+		<div class="card-col">
+			<md-card>
+				<md-card-title><i class="fa fa-crosshairs accent mr-10"></i>My Trackers</md-card-title>
+				<md-divider></md-divider>
+
+				<ng-template tdLoading [tdLoadingUntil]="!loadingTrackers" tdLoadingStrategy="overlay" tdLoadingType="linear">
+					<md-nav-list class="black-list-items" dense>
+						<h3 md-subheader>Trackers</h3>
+						<md-divider></md-divider>
+
+						<ng-container *ngFor="let tracker of Trackers">
+
+							<md-expansion-panel>
+								<md-expansion-panel-header>
+									<md-panel-title>{{tracker.name}}</md-panel-title>
+								</md-expansion-panel-header>
+								<md-nav-list dense>
+									<md-list-item *ngIf="!tracker.added" (click)="addTracker(tracker)">
+										<div class="market-icon">
+											<i class="fa fa-line-chart"></i>
+										</div>
+										<p md-line><b>{{tracker.name}}</b> <i>(Tracker)</i></p>
+									</md-list-item>
+									<md-divider></md-divider>
+									<ng-container *ngFor="let source of tracker.sources">
+										<md-list-item *ngIf="!source.added" (click)="addTrackerSource(source, tracker)">
+											<div class="market-icon">
+												<i *ngIf="source.type=='market'" class="fa fa-money"></i>
+												<i *ngIf="source.type!='market'" class="fa fa-{{source.type}}"></i>
+											</div>
+											<p md-line>{{source.name}} <i>(Source)</i></p>
+										</md-list-item>
+									</ng-container>
+								</md-nav-list>
+							</md-expansion-panel>
+
+							<md-divider></md-divider>
+
+						</ng-container>
+
+					</md-nav-list>
+				</ng-template>
+
+			</md-card>
+		</div>
+
+		<div class="card-col">
+			<md-card>
+				<md-card-title><i class="fa fa-globe accent mr-10"></i>Global Data</md-card-title>
+				<md-divider></md-divider>
+				<ng-template tdLoading [tdLoadingUntil]="!loadingGlobalTrackers" tdLoadingStrategy="overlay" tdLoadingType="linear">
+
+					<md-nav-list dense>
+						<h3 md-subheader>Trackers</h3>
+						<md-divider></md-divider>
+						<ng-container *ngFor="let tracker of GlobalTrackers">
+							<md-list-item *ngIf="!source.added" (click)="addTracker(tracker)">
+								<div class="market-icon">
+									<i class="fa fa-line-chart"></i>
+								</div>
+								<p md-line><b>{{tracker.name}}</b> <i>(Tracker)</i></p>
+							</md-list-item>
+						</ng-container>
+					</md-nav-list>
+				</ng-template>
+
+			</md-card>
+		</div>
+
+		<div class="card-col">
+			<md-card>
+				<md-card-title><i class="fa fa-money accent mr-10"></i>Market Data</md-card-title>
+				<md-divider></md-divider>
+				<ng-template tdLoading [tdLoadingUntil]="!loadingExchanges" tdLoadingStrategy="overlay" tdLoadingType="linear">
+					<md-list>
+						<h3 md-subheader>Markets</h3>
+						<md-divider></md-divider>
+
+						<ng-container *ngFor="let exchange of exchanges | toKeys">
+
+							<md-expansion-panel>
+								<md-expansion-panel-header>
+									<md-panel-title>{{exchanges[exchange].name}}</md-panel-title>
+								</md-expansion-panel-header>
+								<md-tab-group>
+									<md-tab *ngFor="let market of exchanges[exchange].markets | toKeys" [label]="exchanges[exchange].markets[market].name">
+										<md-nav-list dense class="black-list-items">
+											<md-list-item *ngFor="let currency of exchanges[exchange].markets[market].currencies | toKeys" [mdMenuTriggerFor]="menu">
+												<div class="market-icon">
+													<i class="cc {{exchanges[exchange].markets[market].currencies[currency].icon}}"></i>
+												</div>
+												<p md-line>{{exchanges[exchange].markets[market].currencies[currency].name}}</p>
+												<md-menu #menu="mdMenu">
+													<md-nav-list dense class="black-list-items">
+														<ng-container *ngFor="let query of exchanges[exchange].queries | toKeys">
+															<md-list-item #menuItem (click)="addMarket(exchange, market, currency, query, menuItem)">
+																<p md-line>{{exchanges[exchange].markets[market].currencies[currency].name}} {{exchanges[exchange].queries[query]}}</p>
+															</md-list-item>
+														</ng-container>
+													</md-nav-list>
+												</md-menu>
+											</md-list-item>
+										</md-nav-list>
+									</md-tab>
+								</md-tab-group>
+							</md-expansion-panel>
+
+							<md-divider></md-divider>
+
+						</ng-container>
+
+					</md-list>
+				</ng-template>
+			</md-card>
+		</div>
+
+		<div class="card-col">
+			<md-card>
+				<md-card-title><i class="fa fa-bullseye accent mr-10"></i>Mentions</md-card-title>
+				<md-divider></md-divider>
+				<ng-template tdLoading [tdLoadingUntil]="!loadingMentionTrackers" tdLoadingStrategy="overlay" tdLoadingType="linear">
+
+					<md-nav-list dense>
+						<h3 md-subheader>Mention Trackers</h3>
+						<md-divider></md-divider>
+						<ng-container *ngFor="let tracker of MentionTrackers">
+							<md-list-item *ngIf="!tracker.added" (click)="addMentionTracker(tracker)">
+								<div class="market-icon">
+									<i class="fa fa-rss"></i>
+								</div>
+								<p md-line><b>{{tracker.name}}</b></p>
+							</md-list-item>
+						</ng-container>
+					</md-nav-list>
+				</ng-template>
+			</md-card>
+		</div>
+	</div>
+</div>

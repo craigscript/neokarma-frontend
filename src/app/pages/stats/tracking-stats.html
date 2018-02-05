@@ -1,0 +1,54 @@
+<md-card>
+	<div fxLayout="row" fxLayoutAlign="space-between center">
+		<md-card-title><i class="fa fa-home accent mr-10"></i>Tracking Stats</md-card-title>
+		<button md-button class="config-btn" [mdMenuTriggerFor]="trackingsMenu">
+			<i class="fa fa-bars"></i>
+		</button>
+	</div>
+	<md-menu class="config-menu" #trackingsMenu="mdMenu" [overlapTrigger]="false">
+
+			<p class="md-padding">Trackings</p>
+			<md-nav-list dense>
+				<ng-container *ngFor="let category of statCategories">
+					<md-list-item (click)="selectCategory(category)">
+						{{category | uppercase}}
+					</md-list-item>
+				</ng-container>
+			</md-nav-list>
+	</md-menu>
+
+	<md-divider></md-divider>
+	<table style="width:100%;" class="stats-table">
+		<tr>
+			<th>Tracker Type</th>
+			<th>Tracker Target</th>
+			<th>Updated At</th>
+			<th>Last Updated</th>
+			<th>Number of entries</th>
+		</tr>
+		<ng-container *ngFor="let tracking of trackingStats[statCategory]">
+			<tr class="tracker-entry trackertype-{{tracking.type}}" [class.late]="tracking.late" (click)="tracking.showChart=!tracking.showChart">
+				<td>
+					{{tracking.type}}
+				</td>
+				<td>
+					{{tracking.target}}
+				</td>
+				<td>
+					{{tracking.updatedAt | amCalendar}}
+				</td>
+				<td>
+					{{tracking.updatedAt | amTimeAgo}}
+				</td>
+				<td>
+					{{tracking.stats}}
+				</td>
+			</tr>
+			<!--<tr class="statsChart" *ngIf="tracking.showChart">
+				<td colspan="5" style="height:150px;">
+					<superchart-market [data]="tracking.chartData"></superchart-market>
+				</td>
+			</tr>-->
+		</ng-container>
+	</table>
+</md-card>

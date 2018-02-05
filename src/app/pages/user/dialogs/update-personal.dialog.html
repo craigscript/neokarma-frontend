@@ -1,0 +1,25 @@
+<h2 md-dialog-title>Update personal info</h2>
+<form #userForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '350px' : '100%')">
+
+		<md-input-container class="full-width">
+			<input mdInput #firstnameInput="ngModel" type="text" minlength="1" placeholder="Your first name" [(ngModel)]="personal.firstname" name="firstname" required>
+			<md-hint fxLayoutAlign="start">
+				<span [hidden]="firstnameInput.valid" class="tc-red-600">Please enter your first name</span>
+			</md-hint>
+		</md-input-container>
+
+		<md-input-container class="full-width mt-20">
+			<input mdInput #lastnameInput="ngModel" type="text" minlength="1" placeholder="Your last name" [(ngModel)]="personal.lastname" name="lastname" required>
+			<md-hint fxLayoutAlign="start">
+				<span [hidden]="lastnameInput.valid" class="tc-red-600">Please enter your last name</span>
+			</md-hint>
+		</md-input-container>
+
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around">
+		<button md-raised-button color="primary" [disabled]="!userForm.form.valid" (click)="savePersonal()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

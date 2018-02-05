@@ -1,0 +1,18 @@
+<ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay">
+	<ul class="faqs" dropdown="false">
+		<li class="faq" *ngFor="let faq of faqs" #faqitem>
+			<h3 class="faq-title" (click)="faqToggle(faqitem)">
+				<md-icon fontIcon="fa-plus"></md-icon>
+				{{faq.question}}
+			</h3>
+			<div class="faq-content">
+				<p class="faq-answer">{{faq.answer}}</p>
+				<div class="faq-video" *ngIf="faq.video">
+					<div class="responsive-video">
+						<iframe width="560" height="315" src="{{faq.video}}" frameborder="0" allowfullscreen></iframe>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</ng-template>

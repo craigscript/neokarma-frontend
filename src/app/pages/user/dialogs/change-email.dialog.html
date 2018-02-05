@@ -1,0 +1,18 @@
+<h2 md-dialog-title>Change email address</h2>
+<form #emailForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '350px' : '100%')">
+
+		<md-input-container class="full-width mt-20">
+			<input mdInput #emailInput="ngModel" type="email" placeholder="Your email address" [(ngModel)]="email" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+			<md-hint fxLayoutAlign="start">
+				<span [hidden]="emailInput.valid" class="tc-red-600">Please enter valid email address</span>
+			</md-hint>
+		</md-input-container>
+
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around">
+		<button md-raised-button color="primary" [disabled]="!emailForm.form.valid" (click)="saveEmail()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

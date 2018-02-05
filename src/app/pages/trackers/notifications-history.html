@@ -1,0 +1,23 @@
+<md-card>
+	<md-card-title><i class="fa fa-envelope-open accent mr-10"></i>Trackers Notifications History</md-card-title>
+	<md-card-subtitle>List of notifications that were sent out</md-card-subtitle>
+	<md-divider></md-divider>
+
+	<md-card-content>
+
+		<md-nav-list>
+			<h3 md-subheader>
+				<md-icon color="accent" md-list-avatar fontIcon="fa-database"></md-icon>
+				Notifications
+			</h3>
+
+			<md-list-item class="flex-grow" (click)="edit(notification)" *ngFor="let notification of [0,1,2,3,4,5,6,7]">
+				<md-icon md-list-avatar class="md-big-avatar" fontIcon="fa-reddit"></md-icon>
+				<h3 md-line>r/Ethereum</h3>
+				<p md-line>Post Count</p>
+			</md-list-item>
+
+		</md-nav-list>
+
+	</md-card-content>
+</md-card>

@@ -1,0 +1,66 @@
+{
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"project": {
+		"name": "neo2"
+	},
+	"apps": [
+		{
+			"root": "src",
+			"outDir": "dist",
+			"assets": [
+				"assets",
+				"favicon.ico"
+			],
+			"index": "index.html",
+			"main": "main.ts",
+			"polyfills": "polyfills.ts",
+			"test": "test.ts",
+			"tsconfig": "tsconfig.app.json",
+			"testTsconfig": "tsconfig.spec.json",
+			"prefix": "app",
+			"styles": [
+				"../node_modules/@covalent/core/common/platform.scss",
+				"../node_modules/choices.js/assets/styles/css/choices.css",
+				"styles.scss"
+			],
+			"scripts": [
+				"../node_modules/moment/min/moment.min.js",
+				"../node_modules/chart.js/dist/Chart.js",
+				"../node_modules/choices.js/assets/scripts/dist/choices.js"
+			],
+			"environmentSource": "environments/environment.ts",
+			"environments": {
+				"dev": "environments/environment.dev.ts",
+				"remote": "environments/environment.remote.ts",
+				"test": "environments/environment.test.ts",
+				"prod": "environments/environment.prod.ts",
+				"jays": "environments/environment.jays.ts"
+			}
+		}
+	],
+	"e2e": {
+		"protractor": {
+			"config": "./protractor.conf.js"
+		}
+	},
+	"lint": [
+		{
+			"project": "src/tsconfig.app.json"
+		},
+		{
+			"project": "src/tsconfig.spec.json"
+		},
+		{
+			"project": "e2e/tsconfig.e2e.json"
+		}
+	],
+	"test": {
+		"karma": {
+			"config": "./karma.conf.js"
+		}
+	},
+	"defaults": {
+		"styleExt": "scss",
+		"component": {}
+	}
+}

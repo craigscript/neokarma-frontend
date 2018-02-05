@@ -1,0 +1,102 @@
+<div class="md-content">
+	<div layout="row" layout-xs="column">
+		<md-card flex-gt-sm="80">
+			<md-card-title><i class="fa fa-line-chart accent mr-10"></i>Monitor Mentions</md-card-title>
+			<md-card-subtitle>Analyze your mentions</md-card-subtitle>
+			<md-divider></md-divider>
+
+			<div class="md-padding filters-container" layout="row" layout-align="space-around end" layout-wrap>
+				<md-select [class]="(media.query('xs') ? 'full-width mt-20' : '')" placeholder="Zoom">
+					<md-option (click)="SetStepSize(60)" value="1 minutes">1 minutes</md-option>
+					<md-option (click)="SetStepSize(60*5)" value="5 minutes">5 minutes</md-option>
+					<md-option (click)="SetStepSize(60*10)" value="10 minutes">10 minutes</md-option>
+					<md-option (click)="SetStepSize(60*15)" value="15 minutes">15 minutes</md-option>
+					<md-option (click)="SetStepSize(60*30)" value="30 minutes">30 minutes</md-option>
+					<md-option (click)="SetStepSize(60*60)" value="1 hour">1 hour</md-option>
+					<md-option (click)="SetStepSize(60*60*2)" value="2 hours">2 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*3)" value="3 hours">3 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*6)" value="6 hours">6 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*12)" value="12 hours">12 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*24)" value="24 hours">24 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*48)" value="48 hours">48 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*72)" value="72 hours">72 hours</md-option>
+					<md-option (click)="SetStepSize(60*60*96)" value="4 days">4 days</md-option>
+					<md-option (click)="SetStepSize(60*60*24*7)" value="1 week">1 week</md-option>
+					<md-option (click)="SetStepSize(60*60*24*7*2)" value="2 weeks">2 weeks</md-option>
+					<md-option (click)="SetStepSize(60*60*24*7*3)" value="3 weeks">3 weeks</md-option>
+					<md-option (click)="SetStepSize(60*60*24*31)" value="1 month">1 month</md-option>
+				</md-select>
+				<md-checkbox color="primary" (change)="toggleStack()">Collapse</md-checkbox>
+				<md-checkbox color="primary" (change)="toggleNormalize()">Normalize</md-checkbox>
+
+				<!-- Date Picker Start -->
+				<md-input-container class="date-picker">
+					<input mdInput [mdDatepicker]="startDate" placeholder="Date Range Start">
+					<md-datepicker-toggle mdSuffix [for]="startDate"></md-datepicker-toggle>
+				</md-input-container>
+				<md-datepicker [touchUi]="(media.query('gt-xs') ? false : true)" #startDate [startAt]="StartDate" (selectedChanged)="startDateChanged($event)"></md-datepicker>
+
+				<!-- Date Picker End -->
+				<md-input-container class="date-picker">
+					<input mdInput [mdDatepicker]="endDate" placeholder="Date Range End">
+					<md-datepicker-toggle mdSuffix [for]="endDate"></md-datepicker-toggle>
+				</md-input-container>
+				<md-datepicker [touchUi]="(media.query('gt-xs') ? false : true)" #endDate [startAt]="EndDate" (selectedChanged)="endDateChanged($event)"></md-datepicker>
+
+				<md-select placeholder="Time zone" [(ngModel)]="userTimezone">
+					<md-option *ngFor="let timezone of timezones" [value]="timezone">{{timezone}}</md-option>
+				</md-select>
+			</div>
+
+			<md-divider></md-divider>
+
+			<ng-template tdLoading [tdLoadingUntil]="!loadingChart" tdLoadingStrategy="overlay" tdLoadingType="linear">
+				<div class="md-padding">
+					<md-chart #MentionsChart style="width:100%;"
+					[datasets]="ChartData"
+					[labels]="ChartLabels"
+					[options]="ChartOptions"
+					[chartType]="ChartType"
+					(chartClick)="loadChartedMentions($event)"></md-chart>
+				</div>
+			</ng-template>
+
+		</md-card>
+
+		<md-card flex-gt-sm="20">
+			<md-card-title>Mention Trackers</md-card-title>
+			<md-card-subtitle>Toggle charts</md-card-subtitle>
+			<md-divider></md-divider>
+
+
+
+			<ng-template tdLoading [tdLoadingUntil]="!loadingTrackers" tdLoadingStrategy="overlay" tdLoadingType="linear">
+
+				<ng-container  *ngFor="let chart of Charts; let i = index">
+					<md-expansion-panel>
+						<md-expansion-panel-header [style.background-color]="(chart.hidden?'rgba(0, 0, 0, 0.1)':MentionsChart.getChartColor(chart.index))">
+							<md-panel-title>{{chart.name}}</md-panel-title>
+						</md-expansion-panel-header>
+						<div layout="row" layout-align="space-between center" style="margin-top: 16px;">
+							<md-slide-toggle color="primary" checked="true" (change)="toggleChart(chart)"></md-slide-toggle>
+							<button md-button [mdMenuTriggerFor]="menu">Category</button>
+							<md-menu #menu="mdMenu">
+								<md-nav-list dense class="black-list-items">
+									<md-list-item *ngFor="let category of Categories" (click)="filterByCategory(chart, category.value)">
+										<p md-line>{{category.name}}</p>
+									</md-list-item>
+								</md-nav-list>
+							</md-menu>
+						</div>
+					</md-expansion-panel>
+				</ng-container>
+			</ng-template>
+		</md-card>
+	</div>
+</div>
+
+<md-card>
+	<md-card-title>Mentions by selected date</md-card-title>
+	<md-divider></md-divider>
+	<neo-mentions-feed-list></neo-mentions-feed-list>
+</md-card>

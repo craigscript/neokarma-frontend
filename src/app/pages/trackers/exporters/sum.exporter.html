@@ -1,0 +1,36 @@
+<h2 md-dialog-title>Sum Time Series Data</h2>
+<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+</md-dialog-content>
+<div class="md-content md-padding">
+	<!--<form standalone>
+		<span class="md-padding">Start Time:</span>
+		<md-select placeholder="Select a start time" [(ngModel)]="StartTime" name="starttime">
+			<md-option *ngFor="let time of Times" [value]="time.value">
+				{{ time.name }}
+			</md-option>
+		</md-select>
+		<br />
+		<md-divider></md-divider>
+		<br />
+		<span class="md-padding">End Time:</span>
+		<md-select placeholder="Select an end time" [(ngModel)]="EndTime" name="endtime">
+			<md-option *ngFor="let time of Times" [value]="time.value">
+				{{ time.name }}
+			</md-option>
+		</md-select>
+		<br />
+		<md-divider></md-divider>
+		<br />
+		<span class="md-padding">Time Step:</span>
+		<md-select placeholder="Select a source type" [(ngModel)]="TimeStep" name="timestep">
+			<md-option *ngFor="let time of TimeSteps" [value]="time.value">
+				{{ time.name }}
+			</md-option>
+		</md-select>
+	</form>-->
+</div>
+
+<md-dialog-actions class="mt-20" layout="row" layout-align="space-around">
+	<button md-raised-button color="primary" (click)="saveExporter()">Save</button>
+	<button md-raised-button md-dialog-close>Cancel</button>
+</md-dialog-actions>

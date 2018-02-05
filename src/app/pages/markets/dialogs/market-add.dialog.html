@@ -1,0 +1,26 @@
+<h2 md-dialog-title>Add currency</h2>
+<form #dialogForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+
+		<div layout="row" layout-align="start center">
+			<md-form-field class="full-width">
+				<input type="text" mdInput [mdAutocomplete]="auto" placeholder="Enter currency" name="currency" [(ngModel)]="currency" debounce [debouncedelay]="500" (debounced)="searchMarket()" required>
+			</md-form-field>
+			<div class="ml-10">
+				<i [class.invisible]="!loadingMarkets" mdSuffix class="fa fa-spinner fa-pulse"></i>
+			</div>
+		</div>
+
+		<md-autocomplete #auto="mdAutocomplete">
+			<md-option *ngFor="let market of markets" [value]="market.name" (click)="addMarket(market)">
+				{{ market.name }}
+			</md-option>
+		</md-autocomplete>
+
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="end" class="mt-20">
+		<!-- <button md-raised-button color="primary" [disabled]="!dialogForm.form.valid" (click)="addMarket()">Add</button> -->
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

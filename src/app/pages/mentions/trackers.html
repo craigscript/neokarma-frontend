@@ -1,0 +1,73 @@
+<md-card>
+	<md-card-title><i class="fa fa-bullseye accent mr-10"></i>My Mention Trackers</md-card-title>
+	<md-card-subtitle>Edit / Change your mention trackers</md-card-subtitle>
+	<md-divider></md-divider>
+
+	<ng-template tdLoading [tdLoadingUntil]="!loadingTrackers" tdLoadingStrategy="overlay">
+
+		<md-card-content>
+
+			<md-nav-list>
+				<span md-subheader>Trackers</span>
+
+				<div *ngIf="inProgress" class="message">
+					<i class="fa fa-exclamation-circle"></i>
+					One or more trackers is currently being processed and the data displayed is not accurate.
+				</div>
+
+				<div *ngIf="resetTrackers" class="message">
+					<i class="fa fa-exclamation-circle"></i>
+					One or more trackers may not be up to date.
+				</div>
+
+				<md-list-item *ngIf="Trackers.length == 0">
+					<h3 md-line>No trackers here.</h3>
+				</md-list-item>
+
+				<div fxLayout="row" fxLayoutAlign="start center" *ngFor="let tracker of Trackers">
+
+					<md-list-item class="flex-grow" [routerLink]="['/app/mentions/sources/', tracker._id]">
+						<md-icon md-list-avatar fontIcon="fa-bullseye" color="green"></md-icon>
+						<h3 md-line>
+							<span>{{tracker.name}}</span>
+							<i *ngIf="tracker.inProgress || tracker.resetTracker" class="indicator fa fa-refresh fa-spin"></i>
+						</h3>
+						<p md-line>Quota: {{tracker.sources.length}}/{{user.getMaxQuota('mentions.sources')}}</p>
+						<p md-line *ngIf="!tracker.sources.length">
+							<i class="indicator fa fa-exclamation-triangle"></i>
+							No sources to process
+						</p>
+						<p md-line *ngIf="tracker.inQueue && tracker.sources.length">In Queue</p>
+						<p md-line *ngIf="tracker.inProgress && tracker.sources.length">In Progress</p>
+						<p md-line *ngIf="!tracker.inQueue && !tracker.inProgress && tracker.sources.length">{{tracker.lastUpdated | amTimeAgo:true}} behind</p>
+					</md-list-item>
+
+					<md-slide-toggle class="no-shrink" color="primary" [checked]="true">Notifications</md-slide-toggle>
+
+					<md-icon class="vertical-menu" [mdMenuTriggerFor]="menu" fontIcon="fa-ellipsis-v"></md-icon>
+
+					<md-menu #menu="mdMenu" class="color-icons">
+						<button md-menu-item [routerLink]="['/app/mentions/sources/', tracker._id]" routerLinkActive="active">
+							<md-icon fontIcon="fa-cogs"></md-icon>
+							Edit Tracker
+						</button>
+						<button md-menu-item [routerLink]="['/app/mentions/notification/', tracker._id]" routerLinkActive="active">
+							<md-icon fontIcon="fa-bell"></md-icon>
+							Notification
+						</button>
+						<button md-menu-item (click)="deleteTracker(tracker)">
+							<md-icon class="tc-red-400" fontIcon="fa-trash"></md-icon>
+							Delete
+						</button>
+					</md-menu>
+
+				</div>
+
+			</md-nav-list>
+
+			<button md-raised-button color="primary" routerLink="/app/mentions/create" class="add-tracker">Create Tracker</button>
+		</md-card-content>
+
+	</ng-template>
+
+</md-card>

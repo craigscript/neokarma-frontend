@@ -1,0 +1,22 @@
+<div class="notification-row">
+	<md-nav-list>
+		<div fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="start center">
+			<md-list-item class="flex-grow" [class.full-width]="media.query('xs')" (click)="toggleEdit()">
+				<md-icon md-list-icon color="primary" [fontIcon]="target.icon"></md-icon>
+				<h4 md-line class="text-upper">{{target.title}}</h4>
+				<p md-line>{{target.description}}</p>
+			</md-list-item>
+			<div>
+				<button md-button color="accent" (click)="toggleEdit()">Edit Target</button>
+				<button md-button color="warn" (click)="deleteTarget()">Delete Target</button>
+			</div>
+		</div>
+
+	</md-nav-list>
+
+	<div class="notification-toggle" [class.active]="isActive">
+		<div class="notifications-inner">
+			<ng-template #targetComponentView></ng-template>
+		</div>
+	</div>
+</div>

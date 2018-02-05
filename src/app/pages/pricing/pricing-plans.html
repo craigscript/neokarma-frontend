@@ -1,0 +1,69 @@
+<ng-template tdLoading [tdLoadingUntil]="!loadingPlans" tdLoadingStrategy="overlay" tdLoadingType="linear">
+	<md-card *ngIf="(media.query('gt-xs')) || selectedPlan == null">
+		<md-card-title><i class="fa fa-calendar accent mr-10"></i>Select plan</md-card-title>
+		<md-divider></md-divider>
+		<div class="selection-plan-inner" layout="row" layout-align="center start" layout-wrap>
+			<div class="plan" flex-gt-md *ngFor="let plan of pricingPlans" [class.selected]="plan.selected">
+				<h2 class="plan-name">{{plan.name}}</h2>
+				<h3 class="plan-price">{{(plan.price == 0?"Free":plan.price)}} {{plan.currency}}</h3>
+				<button md-raised-button (click)="selectPlan(plan)">Select plan</button>
+				<p class="plan-info">{{plan.description}}</p>
+				<ul class="feature-list">
+					<li *ngFor="let feature of plan.features" [class.feature-disable]="!feature.enabled">
+						<i *ngIf="feature.enabled" class="fa fa-check-circle"></i>
+						{{feature.label}}
+					</li>
+				</ul>
+			</div>
+		</div>
+	</md-card>
+
+	<md-card *ngIf="(media.query('xs')) && selectedPlan != null">
+		<md-card-content class="text-center">
+			<p>Selected plan:</p>
+			<h3 class="text-light">{{selectedPlan.name}}</h3>
+			<p>
+				<strong>{{(selectedPlan.price == 0?"Free":selectedPlan.price)}} {{selectedPlan.currency}}</strong>
+			</p>
+			<button md-raised-button class="full-width text-upper" color="primary" (click)="resetPlans()">Change plan</button>
+		</md-card-content>
+	</md-card>
+</ng-template>
+
+<md-card *ngIf="selectedPlan != null && !selectedPlan.trial">
+	<md-card-title><i class="fa fa-money accent mr-10"></i>Select a payment method</md-card-title>
+	<md-card-subtitle>Choose a payment method</md-card-subtitle>
+	<md-divider></md-divider>
+	<div class="payments" layout="row" layout-align="space-around center" layout-wrap *ngIf="!selectedPlan.trial">
+
+		<button md-raised-button class="payment-btn" (click)="selectPaymentMethod('paypal', 'USD')">
+			<div layout="row" layout-align="start center">
+				<div class="payment-icon"><i class="fa fa-paypal"></i></div>
+				<h3 class="payment-name">PayPal</h3>
+			</div>
+		</button>
+
+		<button md-raised-button class="payment-btn" *ngFor="let crypto of cryptoData" (click)="selectPaymentMethod('coinpayments', crypto.currency)">
+			<div layout="row" layout-align="start center">
+				<div class="payment-icon"><i class="cc {{crypto.currency}}"></i></div>
+				<h3 class="payment-name">{{crypto.name}}</h3>
+			</div>
+		</button>
+
+	</div>
+
+</md-card>
+
+
+<md-card *ngIf="selectedPlan != null && selectedPlan.trial">
+	<md-card-title>Start Free Trial</md-card-title>
+	<md-divider></md-divider>
+	<div class="payments" layout="row" layout-align="space-around center" layout-wrap >
+		<button md-raised-button class="payment-btn" (click)="startTrial(selectedPlan)">
+			<div layout="row" layout-align="start center">
+				<div class="payment-icon"><i class="fa fa-rocket"></i></div>
+				<h3 class="payment-name">Start free Trial!</h3>
+			</div>
+		</button>
+	</div>
+</md-card>

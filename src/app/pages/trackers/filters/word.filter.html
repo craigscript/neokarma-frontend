@@ -1,0 +1,21 @@
+<h2 md-dialog-title>Word filters</h2>
+<form #wordForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+
+		<md-input-container class="full-width">
+			<input mdInput placeholder="List of words" [(ngModel)]="Words" name="Words" required>
+		</md-input-container>
+
+		<md-select placeholder="Select a mode of the filter" [(ngModel)]="Mode" name="Mode" class="full-width mt-20" required>
+			<md-option *ngFor="let mode of ['Match', 'Dont Match', 'Contain', 'Do not contain']" [value]="mode">
+				{{ mode }}
+			</md-option>
+		</md-select>
+
+	</md-dialog-content>
+
+	<md-dialog-actions layout="row" layout-align="space-around" class="mt-20">
+		<button md-raised-button color="primary" [disabled]="!wordForm.form.valid" (click)="saveFilter()">Save</button>
+		<button md-raised-button md-dialog-close>Cancel</button>
+	</md-dialog-actions>
+</form>

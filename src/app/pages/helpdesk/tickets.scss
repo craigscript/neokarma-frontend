@@ -1,0 +1,37 @@
+.ticket {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	padding: 15px;
+	border-bottom: 1px solid rgba(0,0,0,0.12);
+
+	&:hover,
+	&.active {
+		background-color: #f3f3f3;
+	}
+}
+
+.ticket-status {
+	color: #4caf50;
+	padding-right: 20px;
+	font-size: 22px;
+
+	md-icon {
+		width: auto;
+		height: auto;
+	}
+}
+
+.ticket-info {
+
+	h3 {
+		color: #333;
+		margin-top: 0;
+		margin-bottom: 9px;
+	}
+
+	em {
+		color: #878f9c;
+		font-size: 12px;
+	}
+}

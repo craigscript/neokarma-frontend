@@ -1,0 +1,15 @@
+<h2 md-dialog-title>Name your Notification Tracker</h2>
+<form #notificationForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '350px' : '100%')">
+
+		<md-input-container class="full-width">
+			<input mdInput #notificationInput="ngModel" type="text" placeholder="Notification Tracker Name" [(ngModel)]="tracker.name" name="name" required>
+		</md-input-container>
+
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around">
+		<button md-raised-button color="primary" [disabled]="!notificationForm.form.valid" (click)="saveNotification()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

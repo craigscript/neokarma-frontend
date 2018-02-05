@@ -1,0 +1,16 @@
+<h2 md-dialog-title>Add Webhook Notification</h2>
+<form #webhookForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+		<md-input-container class="full-width">
+			<input mdInput #webhookControl="ngModel" type="text" placeholder="Enter webhook url" [(ngModel)]="url" name="url" pattern="https?://.+" required>
+			<md-hint fxLayoutAlign="start">
+				<span [hidden]="webhookControl.valid || webhookControl.untouched" class="tc-red-600">Please enter valid URL. For example https://www.neokarma.com</span>
+			</md-hint>
+		</md-input-container>
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around">
+		<button md-raised-button color="primary" [disabled]="!webhookForm.form.valid" (click)="save()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>

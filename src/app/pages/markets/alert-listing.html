@@ -1,0 +1,49 @@
+<ng-template tdLoading [tdLoadingUntil]="!loadingAlerts" tdLoadingStrategy="overlay" tdLoadingType="linear">
+	<md-card-content >
+		<md-nav-list dense *ngIf="alerts.length">
+			<h3 md-subheader>My Alerts</h3>
+
+			<div fxLayout="row" fxLayoutAlign="start center" *ngFor="let alert of alerts">
+				<md-list-item (click)="editAlert(alert)" *ngIf="alert.alarmStrategy=='pricepoint'" fxFlex>
+					<md-icon md-list-avatar fontIcon="fa-line-chart"></md-icon>
+					<h3 md-line>
+						Email alert when
+						<span>{{alert.alarmOptions.index}}</span>
+						on
+						<b>{{alert.market}}</b>
+						market is 
+						<span *ngIf="alert.alarmOptions.method=='lt'">less than</span>
+						<span *ngIf="alert.alarmOptions.method=='gt'">greater than</span>
+						<b>{{alert.alarmOptions.pricepoint}}</b>
+					</h3>
+					<p md-line>Price Point</p>
+				</md-list-item>
+				<md-list-item (click)="editAlert(alert)" *ngIf="alert.alarmStrategy=='percentchange'" fxFlex>
+					<md-icon md-list-avatar fontIcon="fa-percent"></md-icon>
+					<h3 md-line>
+						Email alert when
+						<span>{{alert.alarmOptions.index}}</span>
+						on
+						<b>{{alert.market}}</b>
+						market 
+						<span *ngIf="alert.alarmOptions.method=='inc'">increases</span>
+						<span *ngIf="alert.alarmOptions.method=='dec'">decreases</span>
+						<span *ngIf="alert.alarmOptions.method=='st'">stays steady on</span>
+						<b>{{alert.alarmOptions.change}} %</b>
+						for <span>{{alert.alarmOptions.range | amDuration : 'seconds' }}</span>
+					</h3>
+					<p md-line>Percent Change</p>
+				</md-list-item>
+				<button md-raised-button (click)="removeAlert(alert)">
+					<md-icon class="tc-red-400" fontIcon="fa-trash"></md-icon>
+					Delete
+				</button>
+			</div>
+		</md-nav-list>
+
+		<md-card-subtitle *ngIf="!alerts.length">
+			You have no alerts yet
+		</md-card-subtitle>
+
+	</md-card-content>
+</ng-template>

@@ -1,0 +1,16 @@
+<form class="user-form" #recoveryForm="ngForm">
+	<h2>Forgot Your Password?</h2>
+	<h3>Enter your email address</h3>
+	<md-input-container>
+		<input mdInput #recoveryElement #recoveryControl="ngModel" placeholder="E-mail" type="email" maxlength="30" name="recoveryemail" [(ngModel)]="recoveryEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+		<md-hint align="end">{{recoveryElement.value.length}} / 30</md-hint>
+		<md-hint fxLayoutAlign="start">
+			<span [hidden]="recoveryControl.valid || recoveryControl.untouched" class="tc-red-600">Email is invalid</span>
+		</md-hint>
+	</md-input-container>
+	<div class="mt-20">
+		<re-captcha #captchaRef="reCaptcha" *ngIf="captchaRequired" (resolved)="captchaResolved($event)" [siteKey]="captchaSiteKey"></re-captcha>
+	</div>
+	<button md-raised-button color="primary" [disabled]="!recoveryForm.form.valid || (this.captchaRequired && !this.captchaSolution)" (click)="recoveryPass()">Send</button>
+	<a class="link" routerLink="/auth/login">Back</a>
+</form>

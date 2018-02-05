@@ -1,0 +1,22 @@
+<h2 md-dialog-title>Add SMS Notification</h2>
+<form #smsForm="ngForm">
+	<md-dialog-content [style.width]="(media.query('gt-xs') ? '500px' : '100%')">
+		<md-input-container class="full-width">
+			<input mdInput type="text" placeholder="Pick your country" [formControl]="codeCtrl" [mdAutocomplete]="auto">
+		</md-input-container>
+		<md-autocomplete #auto="mdAutocomplete">
+			<md-option *ngFor="let countryCode of filteredCountryCodes | async" [value]="countryCode.name">
+				{{countryCode.name}}
+			</md-option>
+		</md-autocomplete>
+
+		<md-input-container class="full-width">
+			<input mdInput type="text" placeholder="Enter phone number" [(ngModel)]="phoneNumber" name="phoneNumber" pattern="[0-9]+" required>
+		</md-input-container>
+	</md-dialog-content>
+
+	<md-dialog-actions fxLayoutAlign="space-around">
+		<button md-raised-button color="primary" [disabled]="!smsForm.form.valid" (click)="save()">Save</button>
+		<button md-raised-button [md-dialog-close]="false">Cancel</button>
+	</md-dialog-actions>
+</form>
